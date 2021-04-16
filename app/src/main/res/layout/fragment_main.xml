@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.edu.fzu.daoyun_app.CustomToolBar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:right_tv_visible="true"
+    app:right_tv_text="添加"
+    app:title_visible="true"
+    app:title_text="班课"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/myCreateTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:text="我创建的"
+            android:clickable="true"/>
+
+        <TextView
+            android:id="@+id/joinedClassTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:text="我加入的"
+            android:clickable="true"/>
+
+<!--        <Button-->
+<!--            android:id="@+id/bt_paslogin_register"-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:layout_marginRight="24dp"-->
+<!--            android:background="@android:drawable/ic_input_add"-->
+<!--            android:elevation="0dp"-->
+<!--            android:outlineProvider="none"-->
+<!--            android:text="@string/login_register_hint"-->
+<!--            android:textColor="@color/transparent"-->
+<!--            android:textSize="@dimen/font_18"-->
+<!--            android:translationZ="0dp"-->
+<!--            tools:targetApi="lollipop" />-->
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/view_mycreate"
+            android:layout_width="75dp"
+            android:layout_height="10px"
+            android:layout_marginLeft="55dp"
+            android:background="#ff00bfff"/>
+
+        <View
+            android:id="@+id/view_myjoin"
+            android:layout_width="75dp"
+            android:layout_height="10px"
+            android:layout_marginLeft="104dp"
+            android:background="#ff00bfff"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@mipmap/main_header_sourch"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="20dp"
+            android:src="@mipmap/search" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1.0"
+            android:hint="搜索"
+            android:singleLine="true"
+            android:imeOptions="actionSearch"
+            android:background="@null"
+            android:textSize="20sp"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/container_content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+    </RelativeLayout>
+
+
+</cn.edu.fzu.daoyun_app.CustomToolBar>
