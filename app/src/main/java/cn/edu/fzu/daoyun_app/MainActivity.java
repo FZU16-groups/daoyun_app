@@ -15,7 +15,8 @@ import android.widget.TextView;
 import cn.edu.fzu.daoyun_app.fragment.MainFragment;
 import cn.edu.fzu.daoyun_app.fragment.MeFragment;
 
-public class MainActivity extends AppCompatActivity  implements View.OnClickListener{
+public class
+MainActivity extends AppCompatActivity  implements View.OnClickListener{
 
     protected LinearLayout mMenuMain;
     protected LinearLayout mMenuFind;

@@ -100,6 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                             try {
                             //    json.put("loginType","1" );
+                                json.put("uId","5" );
                                 json.put("phone","13313930091" );
 
 //                                json.put("loginToken","202001" );
