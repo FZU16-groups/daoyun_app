@@ -147,58 +147,58 @@ public class MyJoinFragment extends Fragment {
                 final String teacherPhone = jsonObject.getString("teacherPhone");
                 final Course[] course = {null};
                 File classIconFile = null;
-                if(classIcon.equals("")){
+                //if(classIcon.equals("")){
                     if(teacherName == null){
                         course[0] = new Course(R.drawable.course_img_1, className, "", gradeClass, classId);
                     }else{
                         course[0] = new Course(R.drawable.course_img_1, className, teacherName, gradeClass, classId);
                     }
-                    course[0].teacherPhone = teacherPhone;
-                }else{
-                    classIconFile = new File(Environment.getExternalStorageDirectory() + "/daoyun/"
-                            + classIcon);
-                    if(!classIconFile.exists()){
-                        final File finalClassIconFile = classIconFile;
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                OkHttpClient okHttpClient1 = new OkHttpClient();
-                                RequestBody requestBody1 = new FormBody.Builder()
-                                        .add("type", "classicon")
-                                        .add("icon", classIcon)
-                                        .build();
-                                Request request1 = new Request.Builder()
-                                        .url("http://47.98.236.0:8080/downloadicon")
-                                        .post(requestBody1)
-                                        .build();
-                                okHttpClient1.newCall(request1).enqueue(new Callback() {
-                                    @Override
-                                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
-                                    }
-
-                                    @Override
-                                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                                        FileOutputStream os = new FileOutputStream(finalClassIconFile);
-                                        byte[] BytesArray = response.body().bytes();
-                                        os.write(BytesArray);
-                                        os.flush();
-                                        os.close();
-                                        if(teacherName == null){
-                                            course[0] = new Course(finalClassIconFile.getAbsolutePath(), className, "", gradeClass, classId);
-                                        }else{
-                                            course[0] = new Course(finalClassIconFile.getAbsolutePath(), className, teacherName, gradeClass, classId);
-                                        }
-                                        course[0].teacherPhone = teacherPhone;
-                                    }
-                                });
-                            }
-                        }).start();
-                    }else{
-                        course[0] = new Course(classIconFile.getAbsolutePath(), className, teacherName, gradeClass,classId);
-                        course[0].teacherPhone = teacherPhone;
-                    }
-                }
+                //    course[0].teacherPhone = teacherPhone;
+//                }else{
+//                    classIconFile = new File(Environment.getExternalStorageDirectory() + "/daoyun/"
+//                            + classIcon);
+//                    if(!classIconFile.exists()){
+//                        final File finalClassIconFile = classIconFile;
+//                        new Thread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                OkHttpClient okHttpClient1 = new OkHttpClient();
+//                                RequestBody requestBody1 = new FormBody.Builder()
+//                                        .add("type", "classicon")
+//                                        .add("icon", classIcon)
+//                                        .build();
+//                                Request request1 = new Request.Builder()
+//                                        .url("http://47.98.236.0:8080/downloadicon")
+//                                        .post(requestBody1)
+//                                        .build();
+//                                okHttpClient1.newCall(request1).enqueue(new Callback() {
+//                                    @Override
+//                                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+//
+//                                    }
+//
+//                                    @Override
+//                                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//                                        FileOutputStream os = new FileOutputStream(finalClassIconFile);
+//                                        byte[] BytesArray = response.body().bytes();
+//                                        os.write(BytesArray);
+//                                        os.flush();
+//                                        os.close();
+//                                        if(teacherName == null){
+//                                            course[0] = new Course(finalClassIconFile.getAbsolutePath(), className, "", gradeClass, classId);
+//                                        }else{
+//                                            course[0] = new Course(finalClassIconFile.getAbsolutePath(), className, teacherName, gradeClass, classId);
+//                                        }
+//                                        course[0].teacherPhone = teacherPhone;
+//                                    }
+//                                });
+//                            }
+//                        }).start();
+//                    }else{
+//                        course[0] = new Course(classIconFile.getAbsolutePath(), className, teacherName, gradeClass,classId);
+//                        course[0].teacherPhone = teacherPhone;
+//                    }
+//                }
                 cList.add(course[0]);
             }
             Log.i("LoginInfo", cList.size()+"");

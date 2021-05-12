@@ -17,7 +17,11 @@ import java.util.List;
 import cn.edu.fzu.daoyun_app.Course;
 import cn.edu.fzu.daoyun_app.R;
 
-public class CourseAdapter extends ArrayAdapter<Course> {
+public class
+
+
+
+CourseAdapter extends ArrayAdapter<Course> {
 
     private int resourceId;
     private int flag = 1;
@@ -43,13 +47,13 @@ public class CourseAdapter extends ArrayAdapter<Course> {
             viewHolder = new ViewHolder();
             viewHolder.courseImage = view.findViewById(R.id.course_image);
             viewHolder.courseName = view.findViewById(R.id.course_name);
-            viewHolder.teacherName = view.findViewById(R.id.teacher_name);
-            viewHolder.className = view.findViewById(R.id.class_name);
+            viewHolder.courseId= view.findViewById(R.id.course_id);
+            viewHolder.courseTerm = view.findViewById(R.id.course_term);
             viewHolder.signInImg = view.findViewById(R.id.signIn_Iv);
             viewHolder.signInTv = view.findViewById(R.id.signIn_Tv);
 //            if(flag != 1){
-            viewHolder.signInImg.setVisibility(View.INVISIBLE);
-            viewHolder.signInTv.setVisibility(View.INVISIBLE);
+           //viewHolder.signInImg.setVisibility(View.INVISIBLE);
+           // viewHolder.signInTv.setVisibility(View.INVISIBLE);
 //            }
             view.setTag(viewHolder);
         }else {
@@ -59,13 +63,13 @@ public class CourseAdapter extends ArrayAdapter<Course> {
         if(course.getImgFilePath().equals("")){
             viewHolder.courseImage.setImageResource(course.getImageId());
             viewHolder.courseName.setText(course.getCourseName());
-            viewHolder.teacherName.setText(course.getTeacherName());
-            viewHolder.className.setText(course.getClassName());
+            viewHolder.courseId.setText(course.getClassId());
+            viewHolder.courseTerm.setText(course.getCourseTerm());
         }else if(course.getImageId() == -1){
             viewHolder.courseImage.setImageBitmap(BitmapFactory.decodeFile(course.getImgFilePath()));
             viewHolder.courseName.setText(course.getCourseName());
-            viewHolder.teacherName.setText(course.getTeacherName());
-            viewHolder.className.setText(course.getClassName());
+            viewHolder.courseId.setText(course.getClassId());
+            viewHolder.courseTerm.setText(course.getCourseTerm());
         }
 
         if(flag == 1){
@@ -118,8 +122,8 @@ public class CourseAdapter extends ArrayAdapter<Course> {
     class ViewHolder{
         ImageView courseImage;
         TextView courseName;
-        TextView teacherName;
-        TextView className;
+        TextView courseId;
+        TextView courseTerm;
 
         ImageView signInImg;
         TextView signInTv;

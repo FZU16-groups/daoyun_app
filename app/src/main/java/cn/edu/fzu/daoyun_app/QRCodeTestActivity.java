@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -83,18 +84,19 @@ public class QRCodeTestActivity extends AppCompatActivity implements View.OnClic
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQ_CODE) {
-            mImage.setVisibility(View.GONE);
-            mTvResult.setVisibility(View.VISIBLE);
-            mImageCallback.setVisibility(View.VISIBLE);
+            //mImage.setVisibility(View.GONE);
+            //mTvResult.setVisibility(View.VISIBLE);
+            //mImageCallback.setVisibility(View.VISIBLE);
 
             String result = data.getStringExtra(CaptureActivity.SCAN_QRCODE_RESULT);
             Bitmap bitmap = data.getParcelableExtra(CaptureActivity.SCAN_QRCODE_BITMAP);
 
             mTvResult.setText("扫码结果：" + result);
+            Log.i("扫码结果", result);
             showToast("扫码结果：" + result);
-            if (bitmap != null) {
-                mImageCallback.setImageBitmap(bitmap);//现实扫码图片
-            }
+//            if (bitmap != null) {
+//                mImageCallback.setImageBitmap(bitmap);//现实扫码图片
+//            }
         }
 
 

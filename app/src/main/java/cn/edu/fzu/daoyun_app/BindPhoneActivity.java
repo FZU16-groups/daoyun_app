@@ -4,11 +4,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.ValueAnimator;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -19,52 +18,51 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSONObject;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Objects;
-import java.util.Random;
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class RegisterActivity extends AppCompatActivity {
-
-    protected EditText userNameET;
+public class BindPhoneActivity extends AppCompatActivity {
+    protected EditText phoneET;
     protected EditText verificationET;
     protected Button sendCodeBtn;
-    protected EditText phoneET;
-    protected EditText emailET;
-    protected Button registerBtn;
-    private int verificationCode;
+    protected Button bindBtn;
+    private String openID;
     boolean a = true;
+    private static final Pattern CHINA_PATTERN = Pattern.compile("^((13[0-9])|(14[0,1,4-9])|(15[0-3,5-9])|(16[2,5,6,7])|(17[0-8])|(18[0-9])|(19[0-3,5-9]))\\d{8}$");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-        ActivityCollector.addActivity(this);
-       // userNameET = findViewById(R.id.et_reg_username);
-        verificationET = findViewById(R.id.et_reg_vericode);
-        sendCodeBtn = findViewById(R.id.bt_veri_submit);
-        phoneET = findViewById(R.id.et_reg_phone);
-        //emailET = findViewById(R.id.et_reg_email);
-        registerBtn = findViewById(R.id.bt_login_submit);
+        setContentView(R.layout.activity_bind_phone);
+
+
+        Intent intent = getIntent();
+        openID = intent.getStringExtra("openID");
+       Log.i("传过来的openID", openID);
+        verificationET = findViewById(R.id.et_bind_vericode);
+        sendCodeBtn = findViewById(R.id.bt_bind_sendcode);
         sendCodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (a)
+                if(!isChinaPhoneLegal(phoneET.getText().toString()))
+                {
+
+                   // Toast.makeText(getApplicationContext(), "手机号绑定成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "请输入正确的手机号", Toast.LENGTH_SHORT).show();
+                }
+                else if (a)
                 {
                     ValueAnimator animator = ValueAnimator.ofInt(60,0);
                     //设置时间
@@ -89,15 +87,16 @@ public class RegisterActivity extends AppCompatActivity {
                     //开启线程
                     animator.start();
                     a=false;
-
+                    sendCodeWithHttpURLConnection();
                 }else {
-                    Toast.makeText(RegisterActivity.this, "稍后重试", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BindPhoneActivity.this, "稍后重试", Toast.LENGTH_SHORT).show();
                 }
-                sendCodeWithHttpURLConnection();
 
             }
         });
-        registerBtn.setOnClickListener(new View.OnClickListener() {
+        phoneET = findViewById(R.id.et_bind_phone);
+        bindBtn=findViewById(R.id.bt_bind_submit);
+        bindBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -113,16 +112,14 @@ public class RegisterActivity extends AppCompatActivity {
 //                            .setMessage("请输入用户名！")
 //                            .setPositiveButton("确定", null);
 //                    builder.show();
-                 if(phoneET.getText().toString().equals("")) {
-                     AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this)
-                             .setMessage("请输入手机号!")
-                             .setPositiveButton("确定", null);
-                     builder.show();
-
-                 }else {
-
-                     sendCodeAndPnone(verificationET.getText().toString());
-                 }
+                if(phoneET.getText().toString().equals("")) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(BindPhoneActivity.this)
+                            .setMessage("请输入手机号!")
+                            .setPositiveButton("确定", null);
+                    builder.show();
+                }else {
+                    sendCodeAndopenId(verificationET.getText().toString());
+                }
             }
         });
     }
@@ -135,7 +132,7 @@ public class RegisterActivity extends AppCompatActivity {
                 MediaType mediaType = MediaType.parse("text/plain; charset=utf-8");
                 String requestBody = phoneET.getText().toString();
                 Request request = new Request.Builder()
-                        .url(" http://47.98.236.0:8080/daoyun_service/fastRegisterSendMessage.do")
+                        .url("http://47.98.151.20:8080/daoyun_service/sendTheAuthMessage.do")
                         .post(RequestBody.create(mediaType, requestBody))
                         .build();
 
@@ -159,47 +156,56 @@ public class RegisterActivity extends AppCompatActivity {
                         //JSON字符串转换成JSON对象
 //                        JSONObject messjsonObject = JSONObject.parseObject(responseBodyStr);
 //                        System.out.println( messjsonObject.getString("message"));
-                       // sendCodeAndPnone(messjsonObject.getJSONObject("data").getString("captcha"));
+                        // sendCodeAndPnone(messjsonObject.getJSONObject("data").getString("captcha"));
                     }
                 });
             }
         }).start();
     }
-    private void sendCodeAndPnone(String captcha)
+
+    private void sendCodeAndopenId(String captcha)
     {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                Log.i("openId", openID);
                 OkHttpClient okHttpClient = new OkHttpClient();
                 MediaType JSON = MediaType.parse("application/json;charset=utf-8");
                 JSONObject json = new JSONObject();
-                json.put("loginToken",phoneET.getText().toString() );
+                json.put("openId",openID);
+                json.put("phone",phoneET.getText().toString() );
                 json.put("captcha",captcha);
                 RequestBody requestBody = RequestBody.create(JSON, String.valueOf(json));
 
                 Request request = new Request.Builder()
                         .header("Content-Type", "application/json")
-                        .url("http://47.98.236.0:8080/daoyun_service/registerFastUser.do")
+                        .url("http://47.98.151.20:8080/daoyun_service/bindPhone.do")
                         .post(requestBody)
                         .build();
 
                 okHttpClient.newCall(request).enqueue(new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                                    Toast.makeText(RegisterActivity.this, "Connection failed!", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(RegisterActivity.this, "Connection failed!", Toast.LENGTH_SHORT).show();
+                        Log.i("三方登陆返回信息错误", e.getMessage());
                     }
 
                     @Override
                     public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                         String responseBodyStr = Objects.requireNonNull(response.body()).string();
                         JSONObject messjsonObject = JSONObject.parseObject(responseBodyStr);
-                        Log.i("注册返回信息", responseBodyStr);
+                        Log.i("三方登陆返回信息", responseBodyStr);
                         if (messjsonObject.get("message").toString().equals("Ok"))
                         {
-                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                            Intent intent = new Intent(BindPhoneActivity.this, LoginActivity.class);
                             startActivity(intent);
+                            Looper.prepare();
+                            Toast.makeText(getApplicationContext(), "手机号绑定成功", Toast.LENGTH_SHORT).show();
+                            Looper.loop();
                         }else {
-                            showAlertDialog("验证码错误");
+                            Looper.prepare();
+                            Toast.makeText(getApplicationContext(), "验证码错误", Toast.LENGTH_SHORT).show();
+                            Looper.loop();
                         }
                     }
                 });
@@ -208,42 +214,8 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ActivityCollector.removeActivity(this);
-    }
-
-    protected void showAlertDialog(final String msg){
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this)
-                        .setMessage(msg);
-                if(msg.equals("注册成功！")){
-                    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                        }
-                    });
-                }else{
-                    builder.setPositiveButton("确定", null);
-                }
-                builder.show();
-            }
-        });
-    }
-
     public static boolean isChinaPhoneLegal(String str) throws PatternSyntaxException {
-        // ^ 匹配输入字符串开始的位置
-        // \d 匹配一个或多个数字，其中 \ 要转义，所以是 \\d
-        // $ 匹配输入字符串结尾的位置
-        String regExp = "^((13[0-9])|(14[5,7,9])|(15[0-3,5-9])|(166)|(17[3,5,6,7,8])" +
-                "|(18[0-9])|(19[8,9]))\\d{8}$";
-        Pattern p = Pattern.compile(regExp);
-        Matcher m = p.matcher(str);
+        Matcher m = CHINA_PATTERN.matcher(str);
         return m.matches();
     }
-
 }

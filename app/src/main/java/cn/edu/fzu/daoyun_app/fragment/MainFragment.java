@@ -18,6 +18,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.interfaces.OnInputConfirmListener;
+import com.lxj.xpopup.interfaces.OnSelectListener;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -31,6 +36,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import cn.edu.fzu.daoyun_app.Course;
 import cn.edu.fzu.daoyun_app.CreateClassActivity;
@@ -75,7 +82,7 @@ public class MainFragment extends Fragment {
         myCreateTV = activity.findViewById(R.id.myCreateTv);
         myJoinTV = activity.findViewById(R.id.joinedClassTv);
         addTV = activity.findViewById(R.id.toolbar_right_tv);
-        myJoinTV.setTextColor(Color.parseColor("#ff00bfff"));
+        myJoinTV.setTextColor(Color.parseColor("#17c98b"));
         myCreateView.setVisibility(View.INVISIBLE);
         Log.i("MainFragmentInfo", "test");
 //        myJoinTV.setTextColor(Color.parseColor("#80000000"));
@@ -83,7 +90,7 @@ public class MainFragment extends Fragment {
         activity.getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.container_content_layout,myCreateFragment)
-                .add(R.id.container_content_layout,myJoinFragment)
+           //     .add(R.id.container_content_layout,myJoinFragment)
                 .hide(myCreateFragment)
                 .commit();
 
@@ -93,6 +100,7 @@ public class MainFragment extends Fragment {
             public void onClick(View v) {
                 Log.i("MainFragmentInfo", "add textview");
 //                Toast.makeText(getContext(), "添加被按下", Toast.LENGTH_SHORT).show();
+
                 showPopupMenu(addTV);
             }
         });
@@ -108,7 +116,7 @@ public class MainFragment extends Fragment {
         myJoinTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myJoinTV.setTextColor(Color.parseColor("#ff00bfff"));
+                myJoinTV.setTextColor(Color.parseColor("#17c98b"));
                 myCreateTV.setTextColor(Color.parseColor("#80000000"));
                 myJoinView.setVisibility(View.VISIBLE);
                 myCreateView.setVisibility(View.INVISIBLE);
@@ -123,7 +131,7 @@ public class MainFragment extends Fragment {
         myCreateTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myCreateTV.setTextColor(Color.parseColor("#ff00bfff"));
+                myCreateTV.setTextColor(Color.parseColor("#17c98b"));
                 myJoinTV.setTextColor(Color.parseColor("#80000000"));
                 myCreateView.setVisibility(View.VISIBLE);
                 myJoinView.setVisibility(View.INVISIBLE);
@@ -150,7 +158,7 @@ public class MainFragment extends Fragment {
             String className = data.getStringExtra("className");
             String gradeClass = data.getStringExtra("gradeClass");
             Log.i("MainFragInfo", classIcon + " " + className + " " + gradeClass);
-            myCreateTV.setTextColor(Color.parseColor("#ff00bfff"));
+            myCreateTV.setTextColor(Color.parseColor("#17c98b"));
             myJoinTV.setTextColor(Color.parseColor("#80000000"));
             myCreateView.setVisibility(View.VISIBLE);
             myJoinView.setVisibility(View.INVISIBLE);
@@ -171,50 +179,53 @@ public class MainFragment extends Fragment {
             myCreateFragment.listView.setAdapter(myCreateFragment.adapter);
         }
     }
-
     private void showPopupMenu(View view) {
-        // 这里的view代表popupMenu需要依附的view
-        PopupMenu popupMenu = new PopupMenu(getActivity(), view);
-        // 获取布局文件
-        popupMenu.getMenuInflater().inflate(R.menu.class_menu, popupMenu.getMenu());
-        popupMenu.show();
-        // 通过上面这几行代码，就可以把控件显示出来了
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                // 控件每一个item的点击事件
-                switch (item.getItemId()){
-                    case R.id.myCreate:
-                        startActivityForResult(new Intent(getContext(), CreateClassActivity.class), 1);
-                        break;
-                    case R.id.joinClass:
-                        final EditText editText = new EditText(getContext());
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
-                                .setTitle("请输入七位班课号")
-                                .setView(editText);
-                        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+        new XPopup.Builder(getContext())
+                .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+                .asBottomList("", new String[]{"输入班课号加入班课", "创建班课"},
+                        //  null, 2,//带选中效果
+                        new OnSelectListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String classStr = editText.getText().toString();
-                                joinClass(classStr);
+                            public void onSelect(int position, String text) {
+                                switch (text)
+                                {
+                                    case "输入班课号加入班课":
+                                        new XPopup.Builder(getContext())
+                                                .hasStatusBarShadow(false)
+                                                //.dismissOnBackPressed(false)
+                                                .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+                                                .autoOpenSoftInput(true)
+                                                // .isDarkTheme(true)
+                                              //  .setPopupCallback(new DemoXPopupListener())
+                                                //.moveUpToKeyboard(false)   //是否移动到软键盘上面，默认为true
+                                                .asInputConfirm("请输入七位班课号", null, null, "班课号",
+                                                        new OnInputConfirmListener() {
+                                                            @Override
+                                                            public void onConfirm(String text) {
+                                                                joinClass(text);
+
+                                                               // Toast.makeText(getActivity().getApplicationContext(),GetTime(), Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        })
+                                                .show();
+                                        break;
+//
+                                    case "创建班课":
+                                        startActivityForResult(new Intent(getContext(), CreateClassActivity.class), 1);
+                                        break;
+                                }
+                                // toast("click " + text);
                             }
-                        });
-                        builder.setNegativeButton("取消", null);
-                        builder.show();
-                        break;
-                }
-                return true;
-            }
-        });
-        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
-            @Override
-            public void onDismiss(PopupMenu menu) {
-                // 控件消失时的事件
-            }
-        });
+                        })
+                .show();
 
     }
-
+    public static String GetTime() {
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+        return format.format(date);
+    }
     private void joinClass(final String classStr){
         new Thread(new Runnable() {
             @Override
