@@ -31,7 +31,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:background="#D8DDE1"
+                android:background="#ededed"
                 android:layout_height="20dp"/>
 
             <LinearLayout
@@ -57,70 +57,119 @@
                     android:background="@null"
                     android:gravity="right|center_vertical"
                     android:hint="未设置" />
-
             </LinearLayout>
+
+<!--            <View-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:background="#D8DDE1"-->
+<!--                android:layout_height="1dp"/>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_margin="10dp"-->
+<!--                    android:text="学校院系"-->
+<!--                    android:textColor="@android:color/black"-->
+<!--                    android:textSize="18dp" />-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/school_Et"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginLeft="10dp"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:layout_marginRight="15dp"-->
+<!--                    android:background="@null"-->
+<!--                    android:gravity="right|center_vertical"-->
+<!--                    android:hint="未设置" />-->
+
+<!--            </LinearLayout>-->
 
             <View
                 android:layout_width="match_parent"
                 android:background="#D8DDE1"
                 android:layout_height="1dp"/>
-
             <LinearLayout
+                android:id="@+id/college_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="学校院系"
-                    android:textColor="@android:color/black"
-                    android:textSize="18dp" />
+                    android:layout_weight="1.0"
+                    android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/school_Et"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="15dp"
-                    android:background="@null"
-                    android:gravity="right|center_vertical"
-                    android:hint="未设置" />
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="请选择院系"
+                        android:textColor="@android:color/black"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:id="@+id/college_Tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="right"
+                        android:text="学校院系未选择"
+                        android:textSize="17dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="1dp"
+                        android:src="@mipmap/icon_forward" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:background="#D8DDE1"
-                android:layout_height="1dp"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+            <!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal">-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="班级"
-                    android:textColor="@android:color/black"
-                    android:textSize="18dp" />
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_margin="10dp"-->
+<!--                    android:text="班级"-->
+<!--                    android:textColor="@android:color/black"-->
+<!--                    android:textSize="18dp" />-->
 
-                <EditText
-                    android:id="@+id/grade_class_Et"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="15dp"
-                    android:background="@null"
-                    android:gravity="right|center_vertical"
-                    android:hint="未设置" />
+<!--                <EditText-->
+<!--                    android:id="@+id/grade_class_Et"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginLeft="10dp"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:layout_marginRight="15dp"-->
+<!--                    android:background="@null"-->
+<!--                    android:gravity="right|center_vertical"-->
+<!--                    android:hint="未设置" />-->
 
-            </LinearLayout>
+<!--            </LinearLayout>-->
 
             <View
                 android:layout_width="match_parent"
@@ -137,26 +186,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.0"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="140dp"
                         android:layout_height="wrap_content"
-                        android:text="请选择班课学期"
                         android:layout_marginLeft="10dp"
-                        android:textSize="18dp"
                         android:layout_marginTop="10dp"
+
+                        android:text="请选择班课学期"
+
+                        android:textSize="18dp"
+
                         android:textColor="@android:color/black" />
 
                     <TextView
                         android:id="@+id/term_Tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="班课学期未选择"
-                        android:layout_marginLeft="15dp"
-                        android:textSize="17dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
-                        android:layout_marginTop="3dp"/>
+                        android:gravity="right"
+                        android:text="班课学期未选择"
+
+                        android:textSize="17dp"
+                        />
 
                 </LinearLayout>
 
@@ -166,11 +221,11 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_marginTop="15dp"
-                        android:layout_marginLeft="10dp"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@mipmap/icon_forward"/>
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="1dp"
+                        android:src="@mipmap/icon_forward" />
 
                 </LinearLayout>
 
@@ -179,7 +234,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#D8DDE1"
+                android:background="#ededed"
                 android:orientation="horizontal">
 
                 <TextView
@@ -205,7 +260,7 @@
                 android:id="@+id/create_class_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="#32A082"
+                android:background="#0bc282"
                 android:textSize="18dp"
                 android:textColor="@android:color/white"
                 android:layout_margin="20dp"

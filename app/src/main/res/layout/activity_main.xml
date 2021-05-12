@@ -30,40 +30,47 @@
             android:layout_marginBottom="5dp"
             android:gravity="center"
             android:layout_weight="1">
+
             <ImageView
+
                 android:id="@+id/Iv_main"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/menu_main_icon_selector"/>
+                android:layout_marginTop="8dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@mipmap/icon_education2" />
             <TextView
                 android:id="@+id/main_Tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="班课"
+                android:textSize="@dimen/font_12"
                 android:textColor="#000000"/>
         </LinearLayout>
 
-<!--        <LinearLayout-->
-<!--            android:id="@+id/menu_find"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical"-->
-<!--            android:layout_marginBottom="5dp"-->
-<!--            android:gravity="center"-->
-<!--            android:layout_weight="1">-->
-<!--            <ImageView-->
-<!--                android:id="@+id/Iv_find"-->
-<!--                android:layout_width="50dp"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:background="@drawable/menu_find_icon_selector"/>-->
-<!--            <TextView-->
-<!--                android:id="@+id/find_Tv"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="发现"-->
-<!--                android:textColor="#000000"/>-->
+        <LinearLayout
+            android:id="@+id/menu_san"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:layout_weight="1">
 
-<!--        </LinearLayout>-->
+            <ImageView
+                android:id="@+id/Iv_san"
+                android:layout_marginTop="8dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@mipmap/icon_scan2" />
+            <TextView
+                android:id="@+id/san_Tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="扫码"
+                android:textSize="@dimen/font_12"
+                android:textColor="#000000"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/menu_me"
@@ -73,16 +80,19 @@
             android:layout_marginBottom="5dp"
             android:gravity="center"
             android:layout_weight="1">
+
             <ImageView
                 android:id="@+id/Iv_me"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/menu_me_icon_selector"/>
+                android:layout_marginTop="8dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@mipmap/icon_person2" />
             <TextView
                 android:id="@+id/me_Tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="我的"
+                android:textSize="@dimen/font_12"
                 android:textColor="#000000"/>
 
         </LinearLayout>

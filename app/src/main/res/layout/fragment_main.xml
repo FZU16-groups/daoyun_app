@@ -66,14 +66,14 @@
             android:layout_width="75dp"
             android:layout_height="10px"
             android:layout_marginLeft="55dp"
-            android:background="#ff00bfff"/>
+            android:background="#17C98B" />
 
         <View
             android:id="@+id/view_myjoin"
             android:layout_width="75dp"
             android:layout_height="10px"
             android:layout_marginLeft="104dp"
-            android:background="#ff00bfff"/>
+            android:background="#17C98B" />
 
     </LinearLayout>
 

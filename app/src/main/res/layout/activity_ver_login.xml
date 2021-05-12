@@ -14,7 +14,7 @@
         android:id="@+id/lay_login_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical"
         android:paddingBottom="16dp">
 
@@ -41,7 +41,7 @@
                 app:srcCompat="@mipmap/ic_login_username" />
 
             <EditText
-                android:id="@+id/et_login_username"
+                android:id="@+id/et_verlogin_username"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="16dp"

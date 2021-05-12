@@ -11,7 +11,7 @@
         android:id="@+id/lay_login_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical"
         android:paddingBottom="16dp">
 
@@ -156,6 +156,7 @@
             android:translationZ="0dp"
             tools:targetApi="lollipop" />
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -205,6 +206,54 @@
             android:layout_width="match_parent"
             android:layout_height="129dp"
             android:layout_weight="3" />
+
+        <LinearLayout
+            android:id="@+id/ll_login_QQ"
+            android:layout_width="71dp"
+            android:layout_height="52dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="150dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_login_username_QQicon"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:contentDescription="@null"
+                app:srcCompat="@mipmap/qq_icon" />
+
+            <TextView
+                android:id="@+id/tv_login_QQ"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingLeft="4dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:text="QQ"
+                android:textColor="#17c98b"
+                android:textSize="20sp"
+                tools:ignore="RtlSymmetry" />
+        </LinearLayout>
+
+<!--        <Button-->
+<!--            android:id="@+id/bt_other_login"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="48dp"-->
+<!--            android:layout_marginLeft="24dp"-->
+<!--            android:layout_marginTop="140dp"-->
+<!--            android:layout_marginRight="24dp"-->
+<!--            android:background="@drawable/bg_login_register"-->
+<!--            android:elevation="0dp"-->
+<!--            android:outlineProvider="none"-->
+<!--            android:text="QQ登陆"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="@dimen/font_18"-->
+<!--            android:translationZ="0dp"-->
+<!--            tools:targetApi="lollipop" />-->
 
         <View
             android:id="@+id/ll_login_layer"

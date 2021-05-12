@@ -33,6 +33,7 @@ import cn.edu.fzu.daoyun_app.adapter.CourseAdapter;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -85,26 +86,34 @@ public class MyCreateFragment extends Fragment {
             @Override
 
             public void run() {
-
                 OkHttpClient okHttpClient = new OkHttpClient();
-                RequestBody requestBody = new FormBody.Builder()
-                        .add("phone", MainActivity.phoneNumber)
-                        .build();
+                MediaType JSON = MediaType.parse("application/json;charset=utf-8");
+                com.alibaba.fastjson.JSONObject json = new com.alibaba.fastjson.JSONObject();
+                json.put("peId",MainActivity.peid );
+                RequestBody requestBody = RequestBody.create(JSON, String.valueOf(json));
+//                Request request = new Request.Builder()
+//                        .header("Content-Type", "application/json")
+//                        .url("http://47.98.236.0:8080/daoyun_service/loginUser.do")
+//                        .post(requestBody)
+//                        .build();
+//                OkHttpClient okHttpClient = new OkHttpClient();
+//                RequestBody requestBody = new FormBody.Builder()
+//                        .add("phone", MainActivity.phoneNumber)
+//                        .build();
                 Request request = new Request.Builder()
-                        .url("http://47.98.236.0:8080/mycreateclass")
+                        .url("http://47.98.151.20:8080/daoyun_service/createdCourse.do")
                         .post(requestBody)
                         .build();
                 okHttpClient.newCall(request).enqueue(new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
 //                        Toast.makeText(getContext(), "Connection failed!", Toast.LENGTH_SHORT).show();
                     }
-
                     @Override
                     public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
 
                         String responseBodyStr = response.body().string();
+                        Log.i("responseBodyStr", responseBodyStr);
                         final List<Course> temp_courseList = parseJsonWithJsonObject(responseBodyStr);
                        //Log.i("myCreateFragInfo", courseList.get(0).getCourseName());
                         afterAction(temp_courseList);
@@ -131,85 +140,88 @@ public class MyCreateFragment extends Fragment {
 
 
     private List<Course> parseJsonWithJsonObject(String jsonData) throws IOException {
-        File classFile = new File(Environment.getExternalStorageDirectory() + "/daoyun/"
-                + MainActivity.phoneNumber + ".json");
-        if(classFile.exists()){
-            classFile.delete();
-        }
-        classFile.createNewFile();
-        byte[] bt = new byte[4096];
-        bt = jsonData.getBytes();
-
-        FileOutputStream out = new FileOutputStream(classFile);
-        out.write(bt, 0, bt.length);
-        out.close();
+//        File classFile = new File(Environment.getExternalStorageDirectory() + "/daoyun/"
+//                + MainActivity.phoneNumber + ".json");
+//        if(classFile.exists()){
+//            classFile.delete();
+//        }
+//        classFile.createNewFile();
+//        byte[] bt = new byte[4096];
+//        bt = jsonData.getBytes();
+//
+//        FileOutputStream out = new FileOutputStream(classFile);
+//        out.write(bt, 0, bt.length);
+//        out.close();
         try{
             JSONArray jsonArray = new JSONArray(jsonData);
             Log.i("myCreateFragInfo", jsonData);
             final List<Course> cList = new ArrayList<Course>();
             for(int i = 0 ; i < jsonArray.length() ; i++){
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                final String classId = jsonObject.getString("classId");
-                final String className = jsonObject.getString("className");
-                final String gradeClass = jsonObject.getString("gradeClass");
-                final String path = jsonObject.getString("classIcon");
+                final String classId = jsonObject.getString("pcId");
+                final String term=jsonObject.getString("term");
+                final String className = jsonObject.getString("cName");
+
+//                final String gradeClass = jsonObject.getString("gradeClass");
+//                final String path = jsonObject.getString("classIcon");
                 final Course course;
-                if(path.equals("")){
-                    if(MainActivity.name == null){
-                        course = new Course(R.drawable.course_img_1, className, "", gradeClass, classId);
-                    }else{
-                        course = new Course(R.drawable.course_img_1, className, MainActivity.name, gradeClass, classId);
-                    }
-                    cList.add(course);
-                }else{
-                    final File imgFile = new File(Environment.getExternalStorageDirectory() + "/daoyun/" + path);
-                    if(!imgFile.exists()){
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                OkHttpClient okHttpClient = new OkHttpClient();
-                                RequestBody requestBody = new FormBody.Builder()
-                                        .add("icon", path)
-                                        .add("type", "classicon")
-                                        .build();
-                                Request request = new Request.Builder()
-                                        .url("http://47.98.236.0:8080/downloadicon")
-                                        .post(requestBody)
-                                        .build();
-                                okHttpClient.newCall(request).enqueue(new Callback() {
-                                    @Override
-                                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
-                                    }
-
-                                    @Override
-                                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                                        File iconFile = new File(Environment.getExternalStorageDirectory() + "/daoyun/" + path);
-                                        FileOutputStream os = new FileOutputStream(iconFile);
-                                        byte[] BytesArray = response.body().bytes();
-                                        os.write(BytesArray);
-                                        os.flush();
-                                        os.close();
-                                        Course course1;
-                                        if(MainActivity.name == null){
-                                            course1 = new Course(iconFile.getAbsolutePath(), className, "", gradeClass, classId);
-                                        }else{
-                                            course1 = new Course(iconFile.getAbsolutePath(), className, MainActivity.name, gradeClass, classId);
-                                        }
-                                        cList.add(course1);
-                                    }
-                                });
-                            }
-                        }).start();
-                    }else{
-                        if(MainActivity.name == null){
-                            course = new Course(imgFile.getAbsolutePath(), className, "", gradeClass, classId);
-                        }else{
-                            course = new Course(imgFile.getAbsolutePath(), className, MainActivity.name, gradeClass, classId);
-                        }
-                        cList.add(course);
-                    }
-                }
+          //      if(path.equals("")){
+//                    if(MainActivity.name == null){
+//                        course = new Course(R.drawable.course_img_1, className, "", gradeClass, classId);
+//                    }else{
+//                        course = new Course(R.drawable.course_img_1, className, MainActivity.name, gradeClass, classId);
+//                    }
+                course = new Course(R.drawable.course_img_1,term, className, classId);
+                cList.add(course);
+//                }else{
+//                    final File imgFile = new File(Environment.getExternalStorageDirectory() + "/daoyun/" + path);
+//                    if(!imgFile.exists()){
+//                        new Thread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                OkHttpClient okHttpClient = new OkHttpClient();
+//                                RequestBody requestBody = new FormBody.Builder()
+//                                        .add("icon", path)
+//                                        .add("type", "classicon")
+//                                        .build();
+//                                Request request = new Request.Builder()
+//                                        .url("http://47.98.236.0:8080/downloadicon")
+//                                        .post(requestBody)
+//                                        .build();
+//                                okHttpClient.newCall(request).enqueue(new Callback() {
+//                                    @Override
+//                                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+//
+//                                    }
+//
+//                                    @Override
+//                                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//                                        File iconFile = new File(Environment.getExternalStorageDirectory() + "/daoyun/" + path);
+//                                        FileOutputStream os = new FileOutputStream(iconFile);
+//                                        byte[] BytesArray = response.body().bytes();
+//                                        os.write(BytesArray);
+//                                        os.flush();
+//                                        os.close();
+//                                        Course course1;
+//                                        if(MainActivity.name == null){
+//                                            course1 = new Course(iconFile.getAbsolutePath(), className, "", gradeClass, classId);
+//                                        }else{
+//                                            course1 = new Course(iconFile.getAbsolutePath(), className, MainActivity.name, gradeClass, classId);
+//                                        }
+//                                        cList.add(course1);
+//                                    }
+//                                });
+//                            }
+//                        }).start();
+//                    }else{
+//                        if(MainActivity.name == null){
+//                            course = new Course(imgFile.getAbsolutePath(), className, "", gradeClass, classId);
+//                        }else{
+//                            course = new Course(imgFile.getAbsolutePath(), className, MainActivity.name, gradeClass, classId);
+//                        }
+//                        cList.add(course);
+//                    }
+//                }
 
             }
             Log.i("LoginInfo", cList.size()+"");
