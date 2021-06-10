@@ -47,6 +47,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import cn.edu.fzu.daoyun_app.Config.GConfig;
 import cn.edu.fzu.daoyun_app.Config.UrlConfig;
 import cn.edu.fzu.daoyun_app.Utils.OkHttpUtil;
 import okhttp3.Call;
@@ -265,7 +266,8 @@ public class PasLoginActivity extends AppCompatActivity {
                                 JSONObject jsonObject = new JSONObject(responseBodyStr);
                                 Log.i("LoginInfoInfo", jsonObject.toString());
                                 MainActivity.peid = jsonObject.getJSONObject("data").getJSONObject("person").getString("peId").toString();
-                                //Log.i("LoginInfoInfo", MainActivity.phoneNumber);
+                                GConfig.setUserToken(jsonObject.getJSONObject("data").getString("token")) ;
+                                Log.i("tokenInfoInfo", GConfig.getUserToken());
                                 Log.i("peIdInfoInfo", MainActivity.peid);
                             } catch (JSONException e) {
                                 e.printStackTrace();

@@ -20,12 +20,13 @@ public class Course {
         this.className = className;
     }
 
-    public Course(String imgFilePath, String courseName, String teacherName, String className, String classId){
+    public Course(int imageId, String courseName, String teacherName, String className, String classId, String courseTerm){
         this.classId = classId;
-        this.imgFilePath = imgFilePath;
+        this.imageId = imageId;
         this.courseName = courseName;
         this.teacherName = teacherName;
         this.className = className;
+        this. courseTerm= courseTerm;
     }
     public Course(int imageId,String  courseTerm, String courseName, String classId){
         this.imageId = imageId;
@@ -33,6 +34,8 @@ public class Course {
         this. courseTerm= courseTerm;
         this.courseName = courseName;
     }
+
+
     public String getTeacherPhone() {
         return teacherPhone;
     }

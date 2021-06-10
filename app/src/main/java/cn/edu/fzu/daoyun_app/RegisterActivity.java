@@ -101,18 +101,6 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-//                if(!verificationET.getText().toString().equals(verificationCode+"")){
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this)
-//                            .setMessage("验证码错误！")
-//                            .setPositiveButton("确定", null);
-//                    builder.show();
-//                    sendCodeBtn.setText("发送验证码");
-//                    sendCodeBtn.setEnabled(true);
-//                 if(userNameET.getText().toString().equals("")){
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this)
-//                            .setMessage("请输入用户名！")
-//                            .setPositiveButton("确定", null);
-//                    builder.show();
                  if(phoneET.getText().toString().equals("")) {
                      AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this)
                              .setMessage("请输入手机号!")

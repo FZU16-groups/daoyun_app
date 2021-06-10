@@ -1,11 +1,13 @@
 package cn.edu.fzu.daoyun_app;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager.LayoutParams;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,6 +29,7 @@ public class CustomPopDialog2 extends Dialog {
         private Context context;
         private Bitmap image;
         private String cNumber;
+        private Button exitButton;
 
         public Builder(Context context) {
             this.context = context;
@@ -43,6 +46,7 @@ public class CustomPopDialog2 extends Dialog {
         }
 
         public CustomPopDialog2 create() {
+
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final CustomPopDialog2 dialog = new CustomPopDialog2(context,R.style.Dialog);
@@ -53,6 +57,8 @@ public class CustomPopDialog2 extends Dialog {
             dialog.setContentView(layout);
             ImageView img = (ImageView)layout.findViewById(R.id.img_qrcode);
             img.setImageBitmap(getImage());
+            exitButton = (Button)layout.findViewById(R.id.bt_dialog_submit);
+            exitButton.setOnClickListener(v -> dialog.dismiss());
             TextView txt=(TextView) layout.findViewById(R.id.dialog_cNumber);
             txt.setText(getcNumber());
             return dialog;

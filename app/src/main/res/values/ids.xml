@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="distance_limit_Et" type="id" />
+    <item name="signin_experience_Tv" type="id" />
+    <item name="latitude_layout" type="id" />
+    <item name="latitude_Tv" type="id" />
+    <item name="longitude_layout" type="id" />
+    <item name="longitude_Tv" type="id" />
+    <item name="start_one_btn" type="id" />
+</resources>

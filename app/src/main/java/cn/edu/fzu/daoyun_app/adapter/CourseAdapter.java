@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 import cn.edu.fzu.daoyun_app.Course;
+import cn.edu.fzu.daoyun_app.MainActivity;
 import cn.edu.fzu.daoyun_app.R;
 
 public class
@@ -43,6 +44,7 @@ CourseAdapter extends ArrayAdapter<Course> {
         final View view;
         final ViewHolder viewHolder;
         if(convertView == null){
+
             view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
             viewHolder = new ViewHolder();
             viewHolder.courseImage = view.findViewById(R.id.course_image);
@@ -51,10 +53,18 @@ CourseAdapter extends ArrayAdapter<Course> {
             viewHolder.courseTerm = view.findViewById(R.id.course_term);
             viewHolder.signInImg = view.findViewById(R.id.signIn_Iv);
             viewHolder.signInTv = view.findViewById(R.id.signIn_Tv);
-//            if(flag != 1){
-           //viewHolder.signInImg.setVisibility(View.INVISIBLE);
-           // viewHolder.signInTv.setVisibility(View.INVISIBLE);
-//            }
+            System.out.println(MainActivity.role);
+            if(flag==1){
+                viewHolder.courseId.setText(course.getTeacherName());
+
+//                v= view.findViewById(R.id.course_id);
+////           viewHolder.signInImg.setVisibility(View.INVISIBLE);
+////            viewHolder.signInTv.setVisibility(View.INVISIBLE);
+            }
+            else if (flag==2)
+        {
+            viewHolder.courseId.setText(course.getClassId());
+        }
             view.setTag(viewHolder);
         }else {
             view = convertView;
@@ -63,12 +73,12 @@ CourseAdapter extends ArrayAdapter<Course> {
         if(course.getImgFilePath().equals("")){
             viewHolder.courseImage.setImageResource(course.getImageId());
             viewHolder.courseName.setText(course.getCourseName());
-            viewHolder.courseId.setText(course.getClassId());
+            //viewHolder.courseId.setText(course.getClassId());
             viewHolder.courseTerm.setText(course.getCourseTerm());
         }else if(course.getImageId() == -1){
             viewHolder.courseImage.setImageBitmap(BitmapFactory.decodeFile(course.getImgFilePath()));
             viewHolder.courseName.setText(course.getCourseName());
-            viewHolder.courseId.setText(course.getClassId());
+            // viewHolder.courseId.setText(course.getClassId());
             viewHolder.courseTerm.setText(course.getCourseTerm());
         }
 
@@ -124,7 +134,7 @@ CourseAdapter extends ArrayAdapter<Course> {
         TextView courseName;
         TextView courseId;
         TextView courseTerm;
-
+        TextView teacher;
         ImageView signInImg;
         TextView signInTv;
     }

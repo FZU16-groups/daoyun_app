@@ -159,6 +159,7 @@ public class CreateClassActivity extends AppCompatActivity {
         createClassBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (classNameET.getText().toString().equals("")) {
                     showAlertDialog("请输入班课名！");
                 } else if (collegeTV.getText().toString().equals("")) {
@@ -171,42 +172,31 @@ public class CreateClassActivity extends AppCompatActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        String nowTime=GetTime();
+                        String nowTime = GetTime();
                         com.alibaba.fastjson.JSONObject json = new com.alibaba.fastjson.JSONObject();
-                        json.put("cNumber",nowTime);
-                        json.put("cName",classNameET.getText().toString());
-                        json.put("description",classIntroductionET.getText().toString());
-                        json.put("term",termTV.getText().toString());
-                        json.put("peId",MainActivity.peid);
-                        OkHttpUtil.getInstance().PostWithJson(UrlConfig.getUrl(UrlConfig.UrlType.Create_Class),json, new Callback() {
+                        json.put("cNumber", nowTime);
+                        json.put("cName", classNameET.getText().toString());
+                        json.put("description", classIntroductionET.getText().toString());
+                        json.put("term", termTV.getText().toString());
+                        json.put("peId", MainActivity.peid);
+                        OkHttpUtil.getInstance().PostWithJson(UrlConfig.getUrl(UrlConfig.UrlType.Create_Class), json, new Callback() {
                             @Override
                             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                                 Log.i("错误的返回", e.getMessage());
                             }
+
                             @Override
                             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                                 String responseBodyStr = response.body().string();
                                 Log.i("CreateClassInfo", responseBodyStr);
                                 com.alibaba.fastjson.JSONObject messjsonObject = com.alibaba.fastjson.JSONObject.parseObject(responseBodyStr);
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Bitmap bitmap = null;
-                                        try {
-                                            //  dialogcNameTV.setText(content);
-                                            bitmap = BitmapUtils.create2DCode(nowTime);
-                                            CustomPopDialog2.Builder dialogBuild = new CustomPopDialog2.Builder(mContext);
-                                            dialogBuild.setImage(bitmap);//显示二维码
-                                            Log.i("kechenghao", nowTime);
-                                            dialogBuild.setcNumber("课程号：" + nowTime);//显示课程号
-                                            CustomPopDialog2 dialog = dialogBuild.create();
-                                            dialog.setCanceledOnTouchOutside(true);// 点击外部区域关闭
-                                            dialog.show();
-                                        } catch (WriterException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                });
+                                Intent intent = new Intent();
+                                intent.putExtra("term",termTV.getText().toString());
+                                intent.putExtra("classId", nowTime);
+                                intent.putExtra("className", classNameET.getText().toString());
+                                intent.putExtra("creatclass","1");
+                                setResult(RESULT_OK, intent);
+                                finish();
                                 //   }
 
                             }
@@ -214,6 +204,7 @@ public class CreateClassActivity extends AppCompatActivity {
                     }
                 }).start();
             }
+
         });
 
     }

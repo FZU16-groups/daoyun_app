@@ -18,9 +18,26 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.zxing.activity.CaptureActivity;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
+import com.lxj.xpopup.interfaces.OnConfirmListener;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import cn.edu.fzu.daoyun_app.Config.UrlConfig;
+import cn.edu.fzu.daoyun_app.Utils.AlertDialogUtil;
+import cn.edu.fzu.daoyun_app.Utils.OkHttpUtil;
+import cn.edu.fzu.daoyun_app.adapter.CourseAdapter;
 import cn.edu.fzu.daoyun_app.fragment.MainFragment;
 import cn.edu.fzu.daoyun_app.fragment.MeFragment;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Response;
 
 public class
 MainActivity extends AppCompatActivity  implements View.OnClickListener{
@@ -43,9 +60,11 @@ MainActivity extends AppCompatActivity  implements View.OnClickListener{
     public static String name = null;
     public static String phoneNumber="";
     public static String peid="";
+    public static String role="";
     public int BUFFER_SIZE = 8192;
     private final static int REQ_CODE = 1028;
     private Context mContext;
+    BasePopupView popupView;
 
 
     private ImageView mImage;
@@ -160,17 +179,35 @@ MainActivity extends AppCompatActivity  implements View.OnClickListener{
      //二维码加入班级
     public void joinClass(String result)
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setTitle("确定加入班级："+result);
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //String classStr = editText.getText().toString();
-                //joinClass(classStr);
-            }
-        });
-        builder.setNegativeButton("取消", null);
-        builder.show();
+
+
+        popupView = new XPopup.Builder(mContext)
+                .dismissOnBackPressed(true)
+                .dismissOnTouchOutside(true)
+                .isDestroyOnDismiss(true)
+
+                .asConfirm("确定加入班级", result,
+                        "取消", "确定",
+                        new OnConfirmListener() {
+                            @Override
+                            public void onConfirm() {
+                                mMainFragment.joinClass(result);
+                            }
+                        }, null, false);
+        popupView.show();
+
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+//                .setTitle("确定加入班级："+result);
+//        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//               // String classStr = editText.getText().toString();
+//                mMainFragment.joinClass(result);
+//
+//            }
+//        });
+//        builder.setNegativeButton("取消", null);
+//        builder.show();
 
     }
 
