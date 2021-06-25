@@ -109,6 +109,7 @@ public class OneBtnSignInSettingActivity extends AppCompatActivity {
         startOneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(distanceLimitET.getText().toString().equals("")){
                     showAlertDialog("请输入签到极限距离！");
                 }else if(experienceSettingTV.getText().toString().equals("")){
@@ -117,9 +118,6 @@ public class OneBtnSignInSettingActivity extends AppCompatActivity {
                     if(longitudeTV.getText().toString().equals("") && latitudeTV.getText().toString().equals("")){
                         getLongitudeLatitude();
                     }
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
                             com.alibaba.fastjson.JSONObject json = new com.alibaba.fastjson.JSONObject();
                             json.put("cNumber", ClassTabActivity.classId);
                             json.put("peId", MainActivity.peid);
@@ -138,44 +136,51 @@ public class OneBtnSignInSettingActivity extends AppCompatActivity {
                                 @Override
                                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                                     final String responseBodyStr = response.body().string();
-                                    Log.i("sendsingininfo", responseBodyStr);
+                                    Log.i("hhhsendsingininfo", responseBodyStr);
                                     //String signinId;
                                     com.alibaba.fastjson.JSONObject messjsonObject = com.alibaba.fastjson.JSONObject.parseObject(responseBodyStr);
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            AlertDialog.Builder builder = new AlertDialog.Builder(OneBtnSignInSettingActivity.this)
-                                                    .setMessage("一键签到设置成功！")
-                                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog, int which) {
-                                                            try {
-                                                                JSONObject jsonObject = new JSONObject(responseBodyStr);
-                                                                Log.i("LoginInfoInfo", jsonObject.toString());
-                                                                String signinId=jsonObject.getJSONObject("data").getJSONObject("sendSignIn").getString("ssId").toString();
-//                                                                startActivityForResult(new Intent(OneBtnSignInSettingActivity.this, FinishSignInActivity.class)
-//                                                                        .putExtra("signin_mode","1")
-//                                                                        .putExtra("signinId", signinId), 1);
-                                                                //进入结束页面
-                                                                Intent intent = new Intent(OneBtnSignInSettingActivity.this, FinishSignInActivity.class);
-                                                                intent.putExtra("signin_mode", "1");
-                                                                intent.putExtra("signinId", signinId);
-                                                                startActivity(intent);
-                                                            } catch (Exception e) {
-                                                                e.printStackTrace();
-                                                            }
 
+                                                                String signinId=messjsonObject.getJSONObject("data").getJSONObject("sendSignIn").getString("ssId").toString();
 
-                                                        }
-                                                    });
-                                            builder.show();
-                                        }
-                                    });
+                                    Intent intent = new Intent(OneBtnSignInSettingActivity.this, FinishSignInActivity.class);
+                                                               intent.putExtra("signin_mode", "1");
+                                                               intent.putExtra("signinId", signinId);
+                                                               intent.putExtra("second", "0");
+                                                               startActivity(intent);
+
+                                    //                                    runOnUiThread(new Runnable() {
+//                                        @Override
+//                                        public void run() {
+//                                            AlertDialog.Builder builder = new AlertDialog.Builder(OneBtnSignInSettingActivity.this)
+//                                                    .setMessage("一键签到设置成功！")
+//                                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                                                        @Override
+//                                                        public void onClick(DialogInterface dialog, int which) {
+//                                                            try {
+//                                                                JSONObject jsonObject = new JSONObject(responseBodyStr);
+//                                                                Log.i("LoginInfoInfo", jsonObject.toString());
+//                                                                String signinId=jsonObject.getJSONObject("data").getJSONObject("sendSignIn").getString("ssId").toString();
+////                                                                startActivityForResult(new Intent(OneBtnSignInSettingActivity.this, FinishSignInActivity.class)
+////                                                                        .putExtra("signin_mode","1")
+////                                                                        .putExtra("signinId", signinId), 1);
+//                                                                //进入结束页面
+//                                                                Intent intent = new Intent(OneBtnSignInSettingActivity.this, FinishSignInActivity.class);
+//                                                                intent.putExtra("signin_mode", "1");
+//                                                                intent.putExtra("signinId", signinId);
+//                                                                startActivity(intent);
+//                                                            } catch (Exception e) {
+//                                                                e.printStackTrace();
+//                                                            }
+//
+//
+//                                                        }
+//                                                    });
+//                                            builder.show();
+//                                        }
+//                                    });
                                 }
                             });
                         }
-                    }).start();
-                }
             }
         });
     }
