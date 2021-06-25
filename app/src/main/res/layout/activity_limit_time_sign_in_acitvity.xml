@@ -8,16 +8,38 @@
     app:barBackground="#FFFFFF"
     app:left_btn_src="@mipmap/icon_back"
     app:left_btn_visible="true"
-    app:title_text="一键签到"
+    app:title_text="限时签到"
     app:title_visible="true"
     tools:context=".UserProtocolActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.0"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="剩余签到时长"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/limited_time_Tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="0dp"
+        android:layout_weight="1.0"
+        android:textColor="#51b5f7"
+        android:gravity="center"
+        android:textStyle="bold"
+
+        android:text="00:00:00"
+        android:textSize="30dp" />
 
     <Button
         android:id="@+id/one_btn"
         android:layout_width="wrap_content"
         android:layout_height="201dp"
         android:layout_marginLeft="90dp"
-        android:layout_marginTop="350dp"
+        android:layout_marginTop="300dp"
         android:layout_marginRight="30dp"
         android:background="@mipmap/singin"
         android:textColor="@android:color/white" />
@@ -30,7 +52,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/signin_num_Tv"
+            android:id="@+id/limitedd_num_Tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -39,7 +61,7 @@
             android:textSize="15dp" />
 
         <TextView
-            android:id="@+id/signin_rate_Tv"
+            android:id="@+id/limited_rate_Tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"

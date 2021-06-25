@@ -13,9 +13,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -40,6 +43,7 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import cn.edu.fzu.daoyun_app.Config.GConfig;
 import cn.edu.fzu.daoyun_app.Config.UrlConfig;
 import cn.edu.fzu.daoyun_app.Utils.OkHttpUtil;
 import okhttp3.Call;
@@ -58,7 +62,9 @@ public class CreateClassActivity extends AppCompatActivity {
     private LinearLayout collegeLayout;
     private TextView termTV;
     private TextView collegeTV;
-    private EditText classNameET;
+    private AutoCompleteTextView classNameET;
+    private EditText classNumberET;
+
     private EditText classIntroductionET;
     private Button createClassBtn;
     private Button backBtn;
@@ -67,9 +73,13 @@ public class CreateClassActivity extends AppCompatActivity {
     private File cropFile = null;
     private String selectedTerm;
     private String selectedCollege;
+    //获取选择院校
+    public static final int SELECT_FACULTY = 11002;
     Bitmap bitmap = null;
     ImageView imageView=null;
     private Context mContext;
+    private String school;
+    private String academy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +91,25 @@ public class CreateClassActivity extends AppCompatActivity {
         termTV = findViewById(R.id.term_Tv);
         collegeTV=findViewById(R.id.college_Tv);
         classNameET = findViewById(R.id.class_name_Et);
+        classNumberET = findViewById(R.id.class_number_Et);
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, GConfig.CLASSNAMES);
+        classNameET.setAdapter(adapter);
+        Log.i("classNameET",GConfig.CLASSNAMES.toString());
+        classNameET.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus)
+                classNameET.showDropDown();
+        });
+
+        classNameET.setOnTouchListener((v, event) -> {
+            classNameET.showDropDown();
+            return false;
+        });
+
+
+
         classIntroductionET = findViewById(R.id.class_introduction_Et);
         createClassBtn = findViewById(R.id.create_class_btn);
         backBtn = findViewById(R.id.toolbar_left_btn);
@@ -103,58 +132,44 @@ public class CreateClassActivity extends AppCompatActivity {
                 startActivityForResult(intent, IMAGE_SELECT);
             }
         });
+        initTermSelect();
         final String[] college = new String[]{"\n" +
                 "电气工程与自动化学院", "数学与计算机科学学院", "环境与资源学院", "外国语学院",
                 "建筑与城乡规划学院", "厦门工艺美术学院", "法学院", "海洋学院", "马克思主义学院", "经济与管理学院",
                 "化学学院", "机械工程及自动化学院", "土木工程学院", "生物科学与工程学院",};
-        final String[] term = new String[]{"2016-2017-1", "2016-2017-2", "2017-2018-1", "2017-2018-2",
-                "2018-2019-1", "2018-2019-2", "2019-2020-1", "2019-2020-2", "2020-2021-1", "2020-2021-2",
-                "2021-2022-1", "2021-2022-2", "2022-2023-1", "2022-2023-2", "2023-2024-1", "2023-2024-2",
-                "2024-2025-1", "2024-2025-2", "2025-2026-1", "2025-2026-2", "2026-2027-1", "2026-2027-2",};
+//        final String[] term = new String[]{"2016-2017-1", "2016-2017-2", "2017-2018-1", "2017-2018-2",
+//                "2018-2019-1", "2018-2019-2", "2019-2020-1", "2019-2020-2", "2020-2021-1", "2020-2021-2",
+//                "2021-2022-1", "2021-2022-2", "2022-2023-1", "2022-2023-2", "2023-2024-1", "2023-2024-2",
+//                "2024-2025-1", "2024-2025-2", "2025-2026-1", "2025-2026-2", "2026-2027-1", "2026-2027-2",};
         collegeLayout=findViewById(R.id.college_layout);
-        collegeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(CreateClassActivity.this)
-                        .setTitle("选择学院")
-                        .setSingleChoiceItems(college, 0, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                selectedTerm = college[which];
-                            }
-                        });
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        collegeTV.setText(selectedTerm);
-                    }
-                });
-                builder.setNegativeButton("取消", null);
-                builder.show();
-            }
+        collegeLayout.setOnClickListener(v -> {
+
+            Intent intent = new Intent(CreateClassActivity.this,SelectFacultyActivity.class);
+            startActivityForResult(intent,CreateClassActivity.SELECT_FACULTY);
+
         });
-        termLayout = findViewById(R.id.term_layout);
-        termLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(CreateClassActivity.this)
-                        .setTitle("选择班课学期")
-                        .setSingleChoiceItems(term, 0, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                selectedTerm = term[which];
-                            }
-                        });
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        termTV.setText(selectedTerm);
-                    }
-                });
-                builder.setNegativeButton("取消", null);
-                builder.show();
-            }
-        });
+//        termLayout = findViewById(R.id.term_layout);
+//        termLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(CreateClassActivity.this)
+//                        .setTitle("选择班课学期")
+//                        .setSingleChoiceItems(term, 0, new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                selectedTerm = term[which];
+//                            }
+//                        });
+//                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        termTV.setText(selectedTerm);
+//                    }
+//                });
+//                builder.setNegativeButton("取消", null);
+//                builder.show();
+//            }
+//        });
 
         createClassBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,6 +194,7 @@ public class CreateClassActivity extends AppCompatActivity {
                         json.put("description", classIntroductionET.getText().toString());
                         json.put("term", termTV.getText().toString());
                         json.put("peId", MainActivity.peid);
+                        json.put("classname", classNumberET.getText().toString());
                         OkHttpUtil.getInstance().PostWithJson(UrlConfig.getUrl(UrlConfig.UrlType.Create_Class), json, new Callback() {
                             @Override
                             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -189,6 +205,8 @@ public class CreateClassActivity extends AppCompatActivity {
                             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                                 String responseBodyStr = response.body().string();
                                 Log.i("CreateClassInfo", responseBodyStr);
+                                GConfig.CLASSNAMES.add(classNameET.getText().toString());
+                                Log.i("classnameinfo", GConfig.CLASSNAMES.toString());
                                 com.alibaba.fastjson.JSONObject messjsonObject = com.alibaba.fastjson.JSONObject.parseObject(responseBodyStr);
                                 Intent intent = new Intent();
                                 intent.putExtra("term",termTV.getText().toString());
@@ -196,6 +214,7 @@ public class CreateClassActivity extends AppCompatActivity {
                                 intent.putExtra("className", classNameET.getText().toString());
                                 intent.putExtra("creatclass","1");
                                 setResult(RESULT_OK, intent);
+
                                 finish();
                                 //   }
 
@@ -208,7 +227,55 @@ public class CreateClassActivity extends AppCompatActivity {
         });
 
     }
+    private void initTermSelect() {
 
+        Time t = new Time(); // or Time t=new Time("GMT+8"); 加上Time Zone资料。
+        t.setToNow(); // 取得系统时间。
+        int year = t.year;
+        int month = t.month + 1;
+        int day = t.monthDay;
+        int hour = t.hour; // 0-23
+        int minute = t.minute;
+        int second = t.second;
+        System.out.println("Calendar获取当前日期" + year + "年" + month + "月" + day + "日" + hour + ":" + minute + ":" + second);
+//
+//        final String[] term = new String[]{"2020-2021-1", "2020-2021-2",
+//                "2021-2022-1", "2021-2022-2", "2022-2023-1", "2022-2023-2", "2023-2024-1", "2023-2024-2",
+//                "2024-2025-1", "2024-2025-2", "2025-2026-1", "2025-2026-2", "2026-2027-1", "2026-2027-2",};
+        int preYear, termID;
+        //        if (month < 8 && month > 2) {
+        if (month <= 6) {
+            preYear = year - 1;
+            termID = 2;
+        } else {
+            preYear = year;
+            termID = 1;
+        }
+        //设置8个
+        int sizeNum = termID == 2 ? 11 : 10;
+        final String[] terms = new String[sizeNum];
+        for (int i = 0; i < sizeNum; i++) {
+
+            String term = String.format("%d-%d-%d", preYear, preYear + 1, termID);
+            if (termID == 2) {
+                preYear++;
+                termID = 1;
+            } else {
+                termID++;
+            }
+            terms[i] = term;
+        }
+        termTV.setText(terms[0]);
+        termLayout = findViewById(R.id.term_layout);
+        termLayout.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(CreateClassActivity.this)
+                    .setTitle("选择班课学期")
+                    .setSingleChoiceItems(terms, 0, (dialog, which) -> selectedTerm = terms[which]);
+            builder.setPositiveButton("确定", (dialog, which) -> termTV.setText(selectedTerm));
+            builder.setNegativeButton("取消", null);
+            builder.show();
+        });
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -223,6 +290,10 @@ public class CreateClassActivity extends AppCompatActivity {
                 } else if (requestCode == IMAGE_SELECT) {
                     Uri iconUri = data.getData();
                     startCropImage(iconUri);
+                }else if (requestCode == CreateClassActivity.SELECT_FACULTY) {//院系选择
+                    school = data.getStringExtra("school");
+                    academy = data.getStringExtra("academy");
+                    collegeTV.setText(school + academy);
                 }
                 break;
             default:

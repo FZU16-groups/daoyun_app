@@ -1,6 +1,8 @@
 package cn.edu.fzu.daoyun_app;
 
-public class Member {
+import java.util.Comparator;
+
+public class Member implements Comparable {
     private String ranking;
     private String iconFilePath = "";
     private int imageId = -1;
@@ -51,4 +53,19 @@ public class Member {
     public String getExperience_score() {
         return experience_score;
     }
+
+    @Override
+    public int compareTo(Object o) {
+        //从大到小排序
+        Member s = (Member) o;
+        int n=this.getExperience_score().compareTo(s.getExperience_score());
+        if(n==0)
+            return 0;
+        else if(n>0)
+            return -1;
+        else
+            return 1;
+    }
 }
+
+

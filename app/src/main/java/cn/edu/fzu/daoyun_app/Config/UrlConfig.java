@@ -14,6 +14,14 @@ public class UrlConfig {
         JOIN_CLASS,
         JPINED_CLASS,
         CREATE_CLASS,
+        PERMIT_JOIN_CLASS,
+        JUDGE_SIGNIN,
+        SEND_SIGNIN,
+        STOP_SIGNIN,
+        STUDENT_JUDGE_SIGNIN,
+        STUDENT_SIGNIN,
+        CLASS_STUDENT,
+        SIGNIN_STUDENT,
     }
 
     public static String getUrl(UrlType urlType) {
@@ -30,6 +38,22 @@ public class UrlConfig {
                 return ORIGION_URL + "addedCourse.do";
             case CREATE_CLASS:
                 return ORIGION_URL + "createdCourse.do";
+            case PERMIT_JOIN_CLASS:
+                return ORIGION_URL + "updateByCoursePrimaryKey.do";
+            case JUDGE_SIGNIN:
+                return ORIGION_URL + "JudgeSignIn.do";
+            case SEND_SIGNIN:
+                return ORIGION_URL + "SendSign.do";
+            case STOP_SIGNIN:
+                return ORIGION_URL+"StopSignIn.do";
+            case STUDENT_JUDGE_SIGNIN:
+                return ORIGION_URL+"JudgeSignInByCourseNumber.do";
+            case STUDENT_SIGNIN:
+                return ORIGION_URL+"insertSignInMessage.do";
+            case CLASS_STUDENT:
+                return ORIGION_URL+"selectStudentsByCourseNumber.do";
+            case SIGNIN_STUDENT:
+                return ORIGION_URL+"SignInInform.do";
             default:
                 return ORIGION_URL + "message?phone=";
         }

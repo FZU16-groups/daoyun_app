@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.edu.fzu.daoyun_app.ClassTabActivity;
 import cn.edu.fzu.daoyun_app.Course;
 import cn.edu.fzu.daoyun_app.MainActivity;
 import cn.edu.fzu.daoyun_app.R;
@@ -114,13 +115,13 @@ public class MyJoinFragment extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Course course = courseList.get(position);
-                        //进入课程后设置
-//                        Intent intent = new Intent(getContext(), ClassTabActivity.class);
-//                        intent.putExtra("courseName", course.getCourseName());
-//                        intent.putExtra("classId", course.getClassId());
-//                        intent.putExtra("enterType", "join");
-//                        intent.putExtra("teacherPhone", course.getTeacherPhone());
-//                        startActivity(intent);
+                       // 进入课程后设置
+                        Intent intent = new Intent(getContext(), ClassTabActivity.class);
+                        intent.putExtra("courseName", course.getCourseName());
+                        intent.putExtra("classId", course.getClassId());
+                        intent.putExtra("enterType", "join");
+                       //intent.putExtra("teacherPhone", course.getTeacherPhone());
+                        startActivity(intent);
                     }
                 });
                 progressDialog.dismiss();

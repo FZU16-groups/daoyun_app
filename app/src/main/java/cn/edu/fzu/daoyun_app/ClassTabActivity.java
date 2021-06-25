@@ -5,10 +5,12 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import cn.edu.fzu.daoyun_app.fragment.DetailFragment;
 import cn.edu.fzu.daoyun_app.fragment.MemberFragment;
 
 public class ClassTabActivity extends AppCompatActivity implements View.OnClickListener{
@@ -27,12 +29,13 @@ public class ClassTabActivity extends AppCompatActivity implements View.OnClickL
     protected MemberFragment mMemberFragment = new MemberFragment();
 //    protected ActivityFragment mActivityFragment = new ActivityFragment();
 //    protected MessageFragment mMessageFragment = new MessageFragment();
-//    protected MoreFragment mMoreFragment = new MoreFragment();
+    protected DetailFragment mdetailFragment = new DetailFragment();
 
     public static String courseName;
     public static String classId;
     public static String enterType;
     public static String teacherPhone;
+    public static String term;
 
 
     @Override
@@ -43,7 +46,9 @@ public class ClassTabActivity extends AppCompatActivity implements View.OnClickL
         courseName = intent.getStringExtra("courseName");
         classId = intent.getStringExtra("classId");
         enterType = intent.getStringExtra("enterType");
-        teacherPhone = intent.getStringExtra("teacherPhone");
+        //teacherPhone = intent.getStringExtra("teacherPhone");
+        term=intent.getStringExtra("term");
+//        Log.v("classinfo",term);
         initView();
         this.getSupportFragmentManager()
                 .beginTransaction()
@@ -51,11 +56,11 @@ public class ClassTabActivity extends AppCompatActivity implements View.OnClickL
                 .add(R.id.container_class_fragment,mMemberFragment)
 //                .add(R.id.container_class_fragment,mActivityFragment)
 //                .add(R.id.container_class_fragment,mMessageFragment)
-//                .add(R.id.container_class_fragment,mMoreFragment)
+                .add(R.id.container_class_fragment,mdetailFragment)
 //                .hide(mResFragment)
                 .hide(mMemberFragment)
 //                .hide(mMessageFragment)
-//                .hide(mMoreFragment)
+                .hide(mdetailFragment)
                 //事物添加  默认：显示首页  其他页面：隐藏
                 //提交
                 .commit();
@@ -93,7 +98,7 @@ public class ClassTabActivity extends AppCompatActivity implements View.OnClickL
                         .hide(mMemberFragment)
 //                        .hide(mActivityFragment)
 //                        .hide(mMessageFragment)
-//                        .hide(mMoreFragment)
+                        .hide(mdetailFragment)
                         .commit();
                 resImageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.nav_res_pressed));
                 memberImageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.nav_member_normal));
@@ -108,7 +113,7 @@ public class ClassTabActivity extends AppCompatActivity implements View.OnClickL
 //                        .hide(mResFragment)
 //                        .hide(mActivityFragment)
 //                        .hide(mMessageFragment)
-//                        .hide(mMoreFragment)
+                        .hide(mdetailFragment)
                         .commit();
                 resImageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.nav_res_normal));
                 memberImageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.nav_member_pressed));
@@ -123,7 +128,7 @@ public class ClassTabActivity extends AppCompatActivity implements View.OnClickL
 //                        .hide(mResFragment)
                         .hide(mMemberFragment)
 //                        .hide(mMessageFragment)
-//                        .hide(mMoreFragment)
+                        .hide(mdetailFragment)
                         .commit();
                 resImageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.nav_res_normal));
                 memberImageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.nav_member_normal));
@@ -138,7 +143,7 @@ public class ClassTabActivity extends AppCompatActivity implements View.OnClickL
 //                        .hide(mResFragment)
 //                        .hide(mActivityFragment)
                         .hide(mMemberFragment)
-//                        .hide(mMoreFragment)
+                        .hide(mdetailFragment)
                         .commit();
                 resImageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.nav_res_normal));
                 memberImageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.nav_member_normal));
@@ -149,7 +154,7 @@ public class ClassTabActivity extends AppCompatActivity implements View.OnClickL
             case R.id.menu_more:
                 this.getSupportFragmentManager()
                         .beginTransaction()
-//                        .show(mMoreFragment)
+                        .show(mdetailFragment)
 //                        .hide(mResFragment)
 //                        .hide(mActivityFragment)
 //                        .hide(mMessageFragment)

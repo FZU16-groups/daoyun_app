@@ -28,7 +28,7 @@
             android:textSize="15dp"
             android:textColor="@android:color/white"
             android:layout_gravity="center_vertical"
-            android:text="点击设置用户详细信息"/>
+            android:text="小凯"/>
 
         <ImageView
             android:layout_width="50dp"

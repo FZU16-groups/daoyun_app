@@ -24,9 +24,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
+import cn.edu.fzu.daoyun_app.Config.GConfig;
+import cn.edu.fzu.daoyun_app.Config.UrlConfig;
+import cn.edu.fzu.daoyun_app.Utils.OkHttpUtil;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -56,7 +61,7 @@ public class OneBtnSignInSettingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        SharedPreferences preferences = getSharedPreferences("sigin", MODE_PRIVATE);
-        setContentView(R.layout.activity_one_btn_sign_in_setting);
+        setContentView(R.layout.content_one_btn_sign_in_setting);
 
         locationClient = new LocationClient(getApplicationContext());
         locationClient.registerLocationListener(new MyLocationListener());
@@ -100,7 +105,7 @@ public class OneBtnSignInSettingActivity extends AppCompatActivity {
         latitudeTV = findViewById(R.id.latitude_Tv);
         longitudeTV = findViewById(R.id.longitude_Tv);
         distanceLimitET = findViewById(R.id.distance_limit_Et);
-        startOneBtn = findViewById(R.id.start_one_btn);
+        startOneBtn=findViewById(R.id.start_one_btn_ok);
         startOneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,29 +120,27 @@ public class OneBtnSignInSettingActivity extends AppCompatActivity {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            OkHttpClient okHttpClient = new OkHttpClient();
-                            RequestBody requestBody = new FormBody.Builder()
-                                    .add("classId", ClassTabActivity.classId)
-                                    .add("className", ClassTabActivity.courseName)
-                                    .add("signinType", "oneButton")
-                                    .add("experience", experienceSettingTV.getText().toString())
-                                    .add("limitDistance", distanceLimitET.getText().toString())
-                                    .add("latitude", latitudeTV.getText().toString())
-                                    .add("longitude", longitudeTV.getText().toString())
-                                    .build();
-                            Request request = new Request.Builder()
-                                    .url("http://47.98.236.0:8080/setsignin")
-                                    .post(requestBody)
-                                    .build();
-                            okHttpClient.newCall(request).enqueue(new Callback() {
+                            com.alibaba.fastjson.JSONObject json = new com.alibaba.fastjson.JSONObject();
+                            json.put("cNumber", ClassTabActivity.classId);
+                            json.put("peId", MainActivity.peid);
+                            json.put("type", "1");
+                            json.put("limitdis",distanceLimitET.getText().toString());
+                            json.put("value", experienceSettingTV.getText().toString());
+                            json.put("position_y", latitudeTV.getText().toString());
+                            json.put("position_x", longitudeTV.getText().toString());
+
+
+                            OkHttpUtil.getInstance().PostWithJson(UrlConfig.getUrl(UrlConfig.UrlType.SEND_SIGNIN), json, new Callback() {
                                 @Override
                                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
+                                    Log.i("错误的返回", e.getMessage());
                                 }
-
                                 @Override
                                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                                     final String responseBodyStr = response.body().string();
+                                    Log.i("sendsingininfo", responseBodyStr);
+                                    //String signinId;
+                                    com.alibaba.fastjson.JSONObject messjsonObject = com.alibaba.fastjson.JSONObject.parseObject(responseBodyStr);
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
@@ -146,9 +149,23 @@ public class OneBtnSignInSettingActivity extends AppCompatActivity {
                                                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog, int which) {
-//                                                            startActivityForResult(new Intent(OneBtnSignInSettingActivity.this, FinishSignInActivity.class)
-//                                                                    .putExtra("signin_mode","one_btn_mode")
-//                                                                    .putExtra("signinId", responseBodyStr), 1);
+                                                            try {
+                                                                JSONObject jsonObject = new JSONObject(responseBodyStr);
+                                                                Log.i("LoginInfoInfo", jsonObject.toString());
+                                                                String signinId=jsonObject.getJSONObject("data").getJSONObject("sendSignIn").getString("ssId").toString();
+//                                                                startActivityForResult(new Intent(OneBtnSignInSettingActivity.this, FinishSignInActivity.class)
+//                                                                        .putExtra("signin_mode","1")
+//                                                                        .putExtra("signinId", signinId), 1);
+                                                                //进入结束页面
+                                                                Intent intent = new Intent(OneBtnSignInSettingActivity.this, FinishSignInActivity.class);
+                                                                intent.putExtra("signin_mode", "1");
+                                                                intent.putExtra("signinId", signinId);
+                                                                startActivity(intent);
+                                                            } catch (Exception e) {
+                                                                e.printStackTrace();
+                                                            }
+
+
                                                         }
                                                     });
                                             builder.show();

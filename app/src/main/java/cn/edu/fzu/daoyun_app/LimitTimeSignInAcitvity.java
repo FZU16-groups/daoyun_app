@@ -1,45 +1,32 @@
 package cn.edu.fzu.daoyun_app;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
-import cn.edu.fzu.daoyun_app.Config.GConfig;
 import cn.edu.fzu.daoyun_app.Config.UrlConfig;
 import cn.edu.fzu.daoyun_app.Utils.AlertDialogUtil;
 import cn.edu.fzu.daoyun_app.Utils.OkHttpUtil;
-import cn.edu.fzu.daoyun_app.fragment.MemberFragment;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -48,7 +35,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class OneBtnSignInActivity extends AppCompatActivity {
+public class LimitTimeSignInAcitvity extends AppCompatActivity {
 
     private Button backBtn;
     private static double EARTH_RADIUS = 6378.137;
@@ -63,15 +50,17 @@ public class OneBtnSignInActivity extends AppCompatActivity {
     public String signinId;
     public TextView signinNumTV;
     public TextView signinRateTV;
+    public TextView signinTimeTV;
     public String value;
-   // public List<SigninRecord> signinRecordList = new ArrayList<>();
+    public int second;
+    // public List<SigninRecord> signinRecordList = new ArrayList<>();
     public ListView listView;
-   // public SigninRecordAdapter signinRecordAdapter;
+    // public SigninRecordAdapter signinRecordAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_one_btn_sign_in);
+        setContentView(R.layout.activity_limit_time_sign_in_acitvity);
         initSigninRecord();
 
         backBtn = findViewById(R.id.toolbar_left_btn);
@@ -81,8 +70,9 @@ public class OneBtnSignInActivity extends AppCompatActivity {
                 finish();
             }
         });
-        signinNumTV = findViewById(R.id.signin_num_Tv);
-        signinRateTV = findViewById(R.id.signin_rate_Tv);
+        signinNumTV = findViewById(R.id.limitedd_num_Tv);
+        signinRateTV = findViewById(R.id.limited_rate_Tv);
+        signinTimeTV =findViewById(R.id.limited_time_Tv);
 //        double value = getDistance(112.37544503, 32.72238775, 112.3752777783, 32.7222221667);
 //        Log.i("DistanceCalculate", String.valueOf(value));
 
@@ -91,17 +81,20 @@ public class OneBtnSignInActivity extends AppCompatActivity {
         teacherLatitude = Double.valueOf(intent.getStringExtra("latitude"));
         distanceLimit = Double.valueOf(intent.getStringExtra("limitDistance"));
         signinId = intent.getStringExtra("signinId");
-
+        //设置倒计时
+        second=Integer.parseInt(getIntent().getStringExtra("second"));
+        Log.i("limittimesecond", second+"");
+        initCuntDown();
         oneButton = findViewById(R.id.one_btn);
         oneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressDialog = new ProgressDialog(OneBtnSignInActivity.this);
+                progressDialog = new ProgressDialog(LimitTimeSignInAcitvity.this);
                 progressDialog.setMessage("获取定位中...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
                 locationClient = new LocationClient(getApplicationContext());
-                locationClient.registerLocationListener(new MyLocationListener());
+                locationClient.registerLocationListener(new LimitTimeSignInAcitvity.MyLocationListener());
                 locationClient.start();
             }
         });
@@ -205,7 +198,7 @@ public class OneBtnSignInActivity extends AppCompatActivity {
             @Override
             public void run() {
                 progressDialog.dismiss();
-                AlertDialog.Builder builder = new AlertDialog.Builder(OneBtnSignInActivity.this)
+                AlertDialog.Builder builder = new AlertDialog.Builder(LimitTimeSignInAcitvity.this)
                         .setMessage("一键签到成功！")
                         .setPositiveButton("确定", null);
                 builder.show();
@@ -221,61 +214,61 @@ public class OneBtnSignInActivity extends AppCompatActivity {
             longitude = bdLocation.getLongitude();
             progressDialog.dismiss();
             double distance = getDistance(longitude, latitude, teacherLongitude, teacherLatitude);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
 
-                        Log.i("studentsignininfo",ClassTabActivity.classId+ signinId+MainActivity.peid+longitude+latitude);
-                        com.alibaba.fastjson.JSONObject json = new com.alibaba.fastjson.JSONObject();
-                        json.put("cNumber", ClassTabActivity.classId);
-                        json.put("ssId", signinId);
-                        json.put("peId", MainActivity.peid);
-                        json.put("position_x", longitude);
-                        json.put("position_y", latitude);
+                    Log.i("studentsignininfo",ClassTabActivity.classId+ signinId+MainActivity.peid+longitude+latitude);
+                    com.alibaba.fastjson.JSONObject json = new com.alibaba.fastjson.JSONObject();
+                    json.put("cNumber", ClassTabActivity.classId);
+                    json.put("ssId", signinId);
+                    json.put("peId", MainActivity.peid);
+                    json.put("position_x", longitude);
+                    json.put("position_y", latitude);
 
-                        OkHttpUtil.getInstance().PostWithJson(UrlConfig.getUrl(UrlConfig.UrlType.STUDENT_SIGNIN), json, new Callback() {
-                            @Override
-                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                                Log.i("错误的返回", e.getMessage());
-                            }
+                    OkHttpUtil.getInstance().PostWithJson(UrlConfig.getUrl(UrlConfig.UrlType.STUDENT_SIGNIN), json, new Callback() {
+                        @Override
+                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                            Log.i("错误的返回", e.getMessage());
+                        }
 
-                            @Override
-                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                                final String responseBodyStr = response.body().string();
+                        @Override
+                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                            final String responseBodyStr = response.body().string();
 
-                                Log.i("studentsignininfo",  responseBodyStr);
-                                if(responseBodyStr.contains("请勿重复签到")) {
-                                    AlertDialogUtil.showToastText("请勿重复签到", OneBtnSignInActivity.this);
-                                }else if(responseBodyStr.contains("不在签到范围内")){
-                                        AlertDialogUtil.showToastText("已超出范围，不在签到范围内", OneBtnSignInActivity.this);
-                                }else{
-                                    try {
-                                        JSONObject jsonObject = new JSONObject(responseBodyStr);
-                                        //Log.i("studentsignininfo", jsonObject.toString());
-                                        value = jsonObject.getJSONObject("data").getJSONObject("signIn").getString("value").toString();
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            AlertDialog.Builder builder = new AlertDialog.Builder(OneBtnSignInActivity.this)
-                                                    .setMessage("一键签到成功！")
-                                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog, int which) {
-                                                            AlertDialogUtil.showToastText("获得"+value+"经验值", OneBtnSignInActivity.this);
-                                                            finish();
-                                                        }
-                                                    });
-                                            builder.show();
-                                        }
-                                    });
+                            Log.i("studentsignininfo",  responseBodyStr);
+                            if(responseBodyStr.contains("请勿重复签到")) {
+                                AlertDialogUtil.showToastText("请勿重复签到", LimitTimeSignInAcitvity.this);
+                            }else if(responseBodyStr.contains("不在签到范围内")){
+                                AlertDialogUtil.showToastText("已超出范围，不在签到范围内", LimitTimeSignInAcitvity.this);
+                            }else{
+                                try {
+                                    JSONObject jsonObject = new JSONObject(responseBodyStr);
+                                    //Log.i("studentsignininfo", jsonObject.toString());
+                                    value = jsonObject.getJSONObject("data").getJSONObject("signIn").getString("value").toString();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(LimitTimeSignInAcitvity.this)
+                                                .setMessage("一键签到成功！")
+                                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        AlertDialogUtil.showToastText("获得"+value+"经验值", LimitTimeSignInAcitvity.this);
+                                                        finish();
+                                                    }
+                                                });
+                                        builder.show();
+                                    }
+                                });
                             }
-                        });
-                    }
-                }).start();
+                        }
+                    });
+                }
+            }).start();
 
         }
     }
@@ -284,12 +277,48 @@ public class OneBtnSignInActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(OneBtnSignInActivity.this)
+                AlertDialog.Builder builder = new AlertDialog.Builder(LimitTimeSignInAcitvity.this)
                         .setMessage(msg)
                         .setPositiveButton("确定", null);
                 builder.show();
             }
         });
+    }
+
+    public void initCuntDown()
+    {
+        new CountDownTimer(second*1000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                String shour;
+                String sminute;
+                String ssecond;
+                // finishSignInBtn.setText(millisUntilFinished + "ms\n" + millisUntilFinished / 1000 + "s");
+                long day = millisUntilFinished / (1000 * 24 * 60 * 60); //单位天
+                long hour = (millisUntilFinished - day * (1000 * 24 * 60 * 60)) / (1000 * 60 * 60); //单位时
+                long minute = (millisUntilFinished - day * (1000 * 24 * 60 * 60) - hour * (1000 * 60 * 60)) / (1000 * 60); //单位分
+                long second = (millisUntilFinished - day * (1000 * 24 * 60 * 60) - hour * (1000 * 60 * 60) - minute * (1000 * 60)) / 1000;//单位秒
+                if(hour<10) { shour="0"+hour; }else {shour=hour+"";}
+                if(minute<10) { sminute="0"+minute; }else {sminute=minute+"";}
+                if(second<10) { ssecond="0"+second; }else {ssecond=second+"";}
+                signinTimeTV.setText(shour + ":" + sminute + ":" + ssecond + "");
+
+            }
+            public void onFinish() {
+                longitude = 0.0;
+                latitude = 0.0;
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(LimitTimeSignInAcitvity.this)
+                        .setMessage("限时签到已停止")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        });
+                builder.show();
+                //   mTextField.setText("done!");
+            }
+        }.start();
     }
 
 }

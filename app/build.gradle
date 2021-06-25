@@ -39,8 +39,9 @@ android {
 dependencies {
 //百度SDk
     compile fileTree(dir:  'libs' , include: ['*.jar'])
-
-
+    implementation 'in.xiandan:count-down-timer:1.0.3'
+   // implementation 'com.github.li-xiaojun:XPopupExt:0.0.6'
+   // implementation 'com.github.li-xiaojun:XPopup:2.2.25'
     implementation 'androidx.navigation:navigation-fragment:2.2.2'
     implementation 'androidx.navigation:navigation-ui:2.2.2'
     compile fileTree(dir: 'libs', include: '*.jar')
@@ -51,7 +52,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation files('E:\\研一下\\工程训练\\daoyun_app\\app\\libs\\open_sdk_3.5.3.10_r6772050_lite.jar')
     compile "com.android.support:support-v4"
-
+    implementation 'com.github.addappcn:android-pickers:2.0.0'
 
     implementation 'com.squareup.okhttp3:okhttp:4.7.2'
     implementation 'com.lxj:xpopup:2.2.23'

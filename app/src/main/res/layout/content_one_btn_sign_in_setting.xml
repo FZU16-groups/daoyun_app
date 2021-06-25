@@ -142,14 +142,11 @@
         android:layout_height="1dp"/>
 
     <Button
-        android:id="@+id/start_one_btn"
+        android:id="@+id/start_one_btn_ok"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="开始一键签到"
-        android:layout_marginTop="60dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:textColor="@android:color/white"
-        android:background="@android:color/holo_blue_light"/>
+        android:layout_height="180dp"
+        android:layout_marginTop="0dp"
+        android:background="@mipmap/singinbutton"
+        android:textColor="@color/bg_toolbar" />
 
 </cn.edu.fzu.daoyun_app.CustomToolBar>

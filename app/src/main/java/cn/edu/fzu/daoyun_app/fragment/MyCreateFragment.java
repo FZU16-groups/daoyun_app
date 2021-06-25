@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.fzu.daoyun_app.ClassTabActivity;
+import cn.edu.fzu.daoyun_app.Config.GConfig;
 import cn.edu.fzu.daoyun_app.Config.UrlConfig;
 import cn.edu.fzu.daoyun_app.Course;
 import cn.edu.fzu.daoyun_app.MainActivity;
@@ -50,6 +51,7 @@ public class MyCreateFragment extends Fragment {
     public CourseAdapter adapter;
     public ListView listView;
     public ProgressDialog progressDialog;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,6 +81,7 @@ public class MyCreateFragment extends Fragment {
                 intent.putExtra("courseName", course.getCourseName());
                 intent.putExtra("classId", course.getClassId());
                 intent.putExtra("enterType", "create");
+                intent.putExtra("term", course.getCourseTerm());
                 startActivity(intent);
             }
         });
@@ -109,8 +112,8 @@ public class MyCreateFragment extends Fragment {
 
                         }else {
                         final List<Course> temp_courseList = parseJsonWithJsonObject(responseBodyStr);
-                       //Log.i("myCreateFragInfo", courseList.get(0).getCourseName());
                         afterAction(temp_courseList);
+                        Log.i("courselistinfo", GConfig.CLASSNAMES.toString());
                         }
 
                     }
@@ -148,7 +151,7 @@ public class MyCreateFragment extends Fragment {
                 final String classId = jsonObject.getString("cNumber");
                 final String term=jsonObject.getString("term");
                 final String className = jsonObject.getString("cName");
-
+                GConfig.CLASSNAMES.add(className);
 //                final String gradeClass = jsonObject.getString("gradeClass");
 //                final String path = jsonObject.getString("classIcon");
                 final Course course;

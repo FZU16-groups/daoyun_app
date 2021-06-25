@@ -73,6 +73,7 @@ public class MainFragment extends Fragment {
     protected MyJoinFragment myJoinFragment = new MyJoinFragment();
     private Context mContext;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -276,6 +277,10 @@ public class MainFragment extends Fragment {
                             AlertDialogUtil.showToastText("加入班课失败！此班课不存在", getActivity());
                         } else if (responseBodyStr.contains("已加入该班课")) {
                             AlertDialogUtil.showToastText("你已经加入此班课，请勿重复加入！", getActivity());
+                        } else if (responseBodyStr.contains("该班课已结束")) {
+                            AlertDialogUtil.showToastText("该班课已结束！", getActivity());
+                        }else if (responseBodyStr.contains("该班课不允许加入")) {
+                            AlertDialogUtil.showToastText("该班课不允许加入！", getActivity());
                         } else {
                             try {
                                 JSONObject jsonObject = new JSONObject(responseBodyStr);

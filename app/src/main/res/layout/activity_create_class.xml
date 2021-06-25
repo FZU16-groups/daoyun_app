@@ -47,8 +47,46 @@
                     android:textColor="@android:color/black"
                     android:textSize="18dp" />
 
-                <EditText
+                 <AutoCompleteTextView
                     android:id="@+id/class_name_Et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                     android:completionThreshold="0"
+                     android:dropDownVerticalOffset = "10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@null"
+                    android:gravity="right|center_vertical"
+                    android:hint="未设置" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="班级"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp" />
+
+<!--                <AutoCompleteTextView-->
+<!--                    android:id="@+id/class_number_Et"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:completionThreshold="0"-->
+<!--                    android:dropDownVerticalOffset = "10dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginLeft="10dp"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:layout_marginRight="15dp"-->
+<!--                    android:background="@null"-->
+<!--                    android:gravity="right|center_vertical"-->
+<!--                    android:hint="未设置" />-->
+                <EditText
+                    android:id="@+id/class_number_Et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -58,7 +96,6 @@
                     android:gravity="right|center_vertical"
                     android:hint="未设置" />
             </LinearLayout>
-
 <!--            <View-->
 <!--                android:layout_width="match_parent"-->
 <!--                android:background="#D8DDE1"-->
