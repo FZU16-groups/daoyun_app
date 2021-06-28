@@ -80,6 +80,7 @@ public class LimitTimeSignInAcitvity extends AppCompatActivity {
         teacherLongitude = Double.valueOf(intent.getStringExtra("longitude"));
         teacherLatitude = Double.valueOf(intent.getStringExtra("latitude"));
         distanceLimit = Double.valueOf(intent.getStringExtra("limitDistance"));
+        Log.i("studentsignininfo",teacherLongitude+teacherLatitude+"");
         signinId = intent.getStringExtra("signinId");
         //设置倒计时
         second=Integer.parseInt(getIntent().getStringExtra("second"));
@@ -218,7 +219,7 @@ public class LimitTimeSignInAcitvity extends AppCompatActivity {
                 @Override
                 public void run() {
 
-                    Log.i("studentsignininfo",ClassTabActivity.classId+ signinId+MainActivity.peid+longitude+latitude);
+                    Log.i("studentsignininfo",longitude+latitude+"");
                     com.alibaba.fastjson.JSONObject json = new com.alibaba.fastjson.JSONObject();
                     json.put("cNumber", ClassTabActivity.classId);
                     json.put("ssId", signinId);
@@ -253,11 +254,13 @@ public class LimitTimeSignInAcitvity extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         AlertDialog.Builder builder = new AlertDialog.Builder(LimitTimeSignInAcitvity.this)
-                                                .setMessage("一键签到成功！")
+                                                .setMessage("限时签到成功！")
                                                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
                                                         AlertDialogUtil.showToastText("获得"+value+"经验值", LimitTimeSignInAcitvity.this);
+                                                        Intent intent=new Intent();
+                                                        setResult(1,intent);
                                                         finish();
                                                     }
                                                 });

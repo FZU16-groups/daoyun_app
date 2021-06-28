@@ -53,14 +53,14 @@ public class FinishSignInActivity extends AppCompatActivity {
     private String signinId;
     private TextView refreshTV;
     private ProgressDialog progressDialog;
-    private int second;
+    private int secondd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finish_sign_in);
         signInCountDownTV = findViewById(R.id.signIn_countdowm_Tv);
         signInCountDownll=findViewById(R.id.signIn_countdowm_ll);
-        final String signin_mode ="2"; getIntent().getStringExtra("signin_mode");
+        final String signin_mode = getIntent().getStringExtra("signin_mode");
         signinId = getIntent().getStringExtra("signinId");
        // signinId="12";
 
@@ -97,7 +97,8 @@ public class FinishSignInActivity extends AppCompatActivity {
         });
         finishSignInBtn = findViewById(R.id.finish_signin_btn);
         if(signin_mode.equals("2")){
-            second=Integer.parseInt(getIntent().getStringExtra("second"));
+            secondd=Integer.parseInt(getIntent().getStringExtra("second"));
+            Log.v("secondinfo",secondd+"");
             initCuntDown();
             finishSignInBtn.setText("结束限时签到");
         }else{
@@ -125,13 +126,14 @@ public class FinishSignInActivity extends AppCompatActivity {
                                 String responseBodyStr = response.body().string();
                                 Log.i("sendsingininfo", responseBodyStr);
                                 final String signinTypeStr;
-                                if (signin_mode.equals("gesture_signin_mode")) {
-                                    signinTypeStr = "手势签到！";
+                                if (signin_mode.equals("2")) {
+                                    signinTypeStr = "限时签到！";
                                     // GraphicLockView.mPassword = null;
                                 } else {
                                     signinTypeStr = "一键签到！";
                                 }
                                 if (responseBodyStr.contains("Ok")) {
+                                   // finish();
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
@@ -338,7 +340,7 @@ public class FinishSignInActivity extends AppCompatActivity {
 
     public void initCuntDown()
     {
-        new CountDownTimer(second, 1000) {
+        new CountDownTimer(secondd*1000, 1000) {
             public void onTick(long millisUntilFinished) {
                 String shour;
                 String sminute;
@@ -351,7 +353,7 @@ public class FinishSignInActivity extends AppCompatActivity {
                 if(hour<10) { shour="0"+hour; }else {shour=hour+"";}
                 if(minute<10) { sminute="0"+minute; }else {sminute=minute+"";}
                 if(second<10) { ssecond="0"+second; }else {ssecond=second+"";}
-                signInCountDownTV.setText(shour + ":" + sminute + ":" + ssecond + "");
+               signInCountDownTV.setText(shour + ":" + sminute + ":" + ssecond + "");
 
             }
             public void onFinish() {

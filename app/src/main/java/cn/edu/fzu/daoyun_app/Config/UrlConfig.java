@@ -22,6 +22,7 @@ public class UrlConfig {
         STUDENT_SIGNIN,
         CLASS_STUDENT,
         SIGNIN_STUDENT,
+        STUDENT_SIGNIN_INFO,
     }
 
     public static String getUrl(UrlType urlType) {
@@ -54,6 +55,8 @@ public class UrlConfig {
                 return ORIGION_URL+"selectStudentsByCourseNumber.do";
             case SIGNIN_STUDENT:
                 return ORIGION_URL+"SignInInform.do";
+            case STUDENT_SIGNIN_INFO:
+                return ORIGION_URL+"selectSignInMessageBycNumber.do";
             default:
                 return ORIGION_URL + "message?phone=";
         }

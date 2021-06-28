@@ -240,8 +240,8 @@ public class PasLoginActivity extends AppCompatActivity {
                     Manifest.permission.READ_PHONE_STATE}, 0);
         }
 
-        Properties properties = PropertiesUtill.getProperties();
-        PropertiesUtill.setProperties(PasLoginActivity.this, "gesturePassword", "");
+//        Properties properties = PropertiesUtill.getProperties();
+//        PropertiesUtill.setProperties(PasLoginActivity.this, "gesturePassword", "");
 
     }
 
@@ -299,6 +299,7 @@ public class PasLoginActivity extends AppCompatActivity {
                                 JSONObject jsonObject = new JSONObject(responseBodyStr);
                                 Log.i("LoginInfoInfo", jsonObject.toString());
                                 MainActivity.peid = jsonObject.getJSONObject("data").getJSONObject("person").getString("peId").toString();
+                                MainActivity.userName=jsonObject.getJSONObject("data").getJSONObject("person").getString("peName").toString();
                                 GConfig.setUserToken(jsonObject.getJSONObject("data").getString("token")) ;
                                 Log.i("tokenInfoInfo", GConfig.getUserToken());
                                 Log.i("peIdInfoInfo", MainActivity.peid);

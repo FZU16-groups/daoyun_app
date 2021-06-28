@@ -111,23 +111,46 @@ public class OneBtnSignInActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                OkHttpClient okHttpClient = new OkHttpClient();
-                RequestBody requestBody = new FormBody.Builder()
-                        .add("classId", ClassTabActivity.classId)
-                        .add("phoneNumber", MainActivity.phoneNumber)
-                        .build();
-                Request request = new Request.Builder()
-                        .url("http://47.98.236.0:8080/querysigninrecord")
-                        .post(requestBody)
-                        .build();
-                okHttpClient.newCall(request).enqueue(new Callback() {
+                com.alibaba.fastjson.JSONObject json = new com.alibaba.fastjson.JSONObject();
+                json.put("cNumber", ClassTabActivity.classId);
+                json.put("peId", MainActivity.peid);
+
+                OkHttpUtil.getInstance().PostWithJson(UrlConfig.getUrl(UrlConfig.UrlType.STUDENT_SIGNIN_INFO), json, new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
+                        Log.i("错误的返回", e.getMessage());
                     }
+
 
                     @Override
                     public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        String responseBodyStr = response.body().string();
+                        Log.i("onebutnrateinfo", responseBodyStr);
+                        try {
+                            int signinNum = 0;
+                            int signinedNum = 0;
+                            JSONObject jsonObject = new JSONObject(responseBodyStr);
+                            JSONObject jsonObject2 = jsonObject.getJSONObject("data");
+
+                            String signTimes = jsonObject2.getString("signTimes");
+
+                            String attence = jsonObject2.getString("attence");
+                            Log.v("signTimedinfo",attence);
+                            signinedNum = Integer.valueOf(attence);
+                            Log.v("signTimedinfo",signinedNum+"");
+                            signinNum = Integer.valueOf(signTimes);
+                            int rate = (int) (signinedNum*1.0 / signinNum * 100);
+                                                        runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    signinRateTV.setText("签到率" + rate + "%");
+//                            Log.v("ratedinfo",rate+"");
+                            signinNumTV.setText("签到" + attence + "次");
+                                                                    }
+                            });
+                    }catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 //                        String responseBodyStr = response.body().string();
 //                        try {
 //                            int rank = 1;
@@ -265,6 +288,8 @@ public class OneBtnSignInActivity extends AppCompatActivity {
                                                         @Override
                                                         public void onClick(DialogInterface dialog, int which) {
                                                             AlertDialogUtil.showToastText("获得"+value+"经验值", OneBtnSignInActivity.this);
+                                                            Intent intent=new Intent();
+                                                            setResult(1,intent);
                                                             finish();
                                                         }
                                                     });

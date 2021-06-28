@@ -1,5 +1,6 @@
 package cn.edu.fzu.daoyun_app.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +19,9 @@ import java.util.List;
 import cn.edu.fzu.daoyun_app.Course;
 import cn.edu.fzu.daoyun_app.MainActivity;
 import cn.edu.fzu.daoyun_app.R;
+import cn.edu.fzu.daoyun_app.Utils.AlertDialogUtil;
+
+import static android.view.ViewGroup.*;
 
 public class
 
@@ -53,16 +58,24 @@ CourseAdapter extends ArrayAdapter<Course> {
             viewHolder.courseTerm = view.findViewById(R.id.course_term);
             viewHolder.signInImg = view.findViewById(R.id.signIn_Iv);
             viewHolder.signInTv = view.findViewById(R.id.signIn_Tv);
+            viewHolder.scanTv=view.findViewById(R.id.scancode_Tv);
+            viewHolder.scanImage=view.findViewById(R.id.scancode_image_Iv);
+            viewHolder.iconLl=view.findViewById(R.id.icon_ll);
             System.out.println(MainActivity.role);
             if(flag==1){
                 viewHolder.courseId.setText(course.getTeacherName());
-
+                viewHolder.scanTv.setVisibility(View.GONE);
+                viewHolder.scanImage.setVisibility(View.GONE);
+                LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams( LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT); layoutParam.setMargins(0, 15, 0, 0);
+                viewHolder.iconLl.setLayoutParams(layoutParam);
 //                v= view.findViewById(R.id.course_id);
 ////           viewHolder.signInImg.setVisibility(View.INVISIBLE);
 ////            viewHolder.signInTv.setVisibility(View.INVISIBLE);
             }
             else if (flag==2)
         {
+
+
             viewHolder.courseId.setText(course.getClassId());
         }
             view.setTag(viewHolder);
@@ -81,7 +94,15 @@ CourseAdapter extends ArrayAdapter<Course> {
             // viewHolder.courseId.setText(course.getClassId());
             viewHolder.courseTerm.setText(course.getCourseTerm());
         }
-
+        if(flag == 2)
+        {
+            viewHolder.scanImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                              AlertDialogUtil.alertQRCode(viewHolder.courseId.getText().toString(), (Activity) v.getContext());
+                }
+            });
+        }
         if(flag == 1){
             viewHolder.signInImg.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -137,5 +158,8 @@ CourseAdapter extends ArrayAdapter<Course> {
         TextView teacher;
         ImageView signInImg;
         TextView signInTv;
+        TextView scanTv;
+        ImageView scanImage;
+        LinearLayout iconLl;
     }
 }

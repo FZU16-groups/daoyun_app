@@ -161,7 +161,7 @@ public class MyCreateFragment extends Fragment {
 //                    }else{
 //                        course = new Course(R.drawable.course_img_1, className, MainActivity.name, gradeClass, classId);
 //                    }
-                course = new Course(R.drawable.course_img_1,term, className, classId);
+                course = new Course(R.drawable.course_img_3,term, className, classId);
                 cList.add(course);
 
 

@@ -34,10 +34,10 @@ public class LoginActivity extends TabActivity {
         TabHost.TabSpec tabSpec1 = mTabHost.newTabSpec("tab1").setIndicator("密码登陆").setContent(new Intent(this,PasLoginActivity.class));
         TabHost.TabSpec tabSpec2 = mTabHost.newTabSpec("tab2").setIndicator("验证码登陆").setContent(new Intent(this,VerLoginActivity.class));
 
-
         mTabHost.addTab(tabSpec1);
         mTabHost.addTab(tabSpec2);
-
+        //mTabHost.getTabWidget().setStripEnabled(false);
+       // setTheme(android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
         for (int i =0; i <mTabHost.getTabWidget().getChildCount(); i++) {
 //	         //修改Tabhost高度和宽度
 //			mTabHost.getTabWidget().getChildAt(i).getLayoutParams().height = 30;

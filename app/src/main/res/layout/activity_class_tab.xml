@@ -33,11 +33,12 @@
             android:gravity="center"
             android:layout_marginTop="10dp"
             android:layout_weight="1">
+
             <ImageView
                 android:id="@+id/Iv_res"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:background="@drawable/menu_res_icon_selector"/>
+                android:background="@mipmap/folder" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,11 +55,12 @@
             android:gravity="center"
             android:layout_marginTop="10dp"
             android:layout_weight="1">
+
             <ImageView
                 android:id="@+id/Iv_member"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:background="@drawable/menu_member_icon_selector"/>
+                android:background="@mipmap/person" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -76,11 +78,12 @@
             android:gravity="center"
             android:layout_marginTop="10dp"
             android:layout_weight="1">
+
             <ImageView
                 android:id="@+id/Iv_activity"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:background="@drawable/menu_activity_icon_selector"/>
+                android:background="@mipmap/mainn2" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -98,11 +101,12 @@
             android:gravity="center"
             android:layout_marginTop="10dp"
             android:layout_weight="1">
+
             <ImageView
                 android:id="@+id/Iv_message"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:background="@drawable/menu_message_icon_selector"/>
+                android:background="@mipmap/emaill" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -120,11 +124,12 @@
             android:gravity="center"
             android:layout_marginTop="10dp"
             android:layout_weight="1">
+
             <ImageView
                 android:id="@+id/Iv_more"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:background="@drawable/menu_more_icon_selector"/>
+                android:background="@mipmap/more" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

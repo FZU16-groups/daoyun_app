@@ -49,12 +49,19 @@
         </LinearLayout>
 
     </LinearLayout>
-
     <LinearLayout
-        android:layout_width="60dp"
+        android:id="@+id/icon_ll"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1.0"
+        android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="5dp"
         android:layout_weight="1.0"
         android:orientation="horizontal">
 
@@ -73,6 +80,33 @@
             android:layout_marginLeft="4dp"
             android:text="签到" />
 
+
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1.0"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/scancode_image_Iv"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/scancode" />
+
+            <TextView
+                android:id="@+id/scancode_Tv"
+                android:layout_width="63dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="4dp"
+                android:text="课码" />
+
+
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

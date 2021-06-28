@@ -109,7 +109,7 @@ public class MyJoinFragment extends Fragment {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                adapter = new CourseAdapter(getContext(), R.layout.course_item, courseList);
+                adapter = new CourseAdapter(getContext(), R.layout.course_item, courseList,1);
                 listView.setAdapter(adapter);
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override

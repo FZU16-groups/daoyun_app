@@ -1,5 +1,7 @@
 package cn.edu.fzu.daoyun_app;
 
+import android.content.Intent;
+
 import java.util.Comparator;
 
 public class Member implements Comparable {
@@ -9,6 +11,8 @@ public class Member implements Comparable {
     private String memberName;
     private String stu_id;
     private String experience_score;
+    private int score;
+
 
     public Member(String ranking, int imageId, String memberName, String stu_id, String experience_score){
         this.ranking = ranking;
@@ -16,6 +20,7 @@ public class Member implements Comparable {
         this.memberName = memberName;
         this.stu_id = stu_id;
         this.experience_score = experience_score;
+        this.score= Integer.valueOf(experience_score);
     }
 
     public Member(String ranking, String iconFilePath, String memberName, String stu_id, String experience_score){
@@ -24,6 +29,7 @@ public class Member implements Comparable {
         this.memberName = memberName;
         this.stu_id = stu_id;
         this.experience_score = experience_score;
+        this.score= Integer.valueOf(experience_score);
     }
 
     public void setRanking(String ranking) {
@@ -58,13 +64,11 @@ public class Member implements Comparable {
     public int compareTo(Object o) {
         //从大到小排序
         Member s = (Member) o;
-        int n=this.getExperience_score().compareTo(s.getExperience_score());
-        if(n==0)
-            return 0;
-        else if(n>0)
-            return -1;
-        else
-            return 1;
+        return s.getScore() - this.getScore();
+    }
+
+    public int getScore() {
+        return score;
     }
 }
 

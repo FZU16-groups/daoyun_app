@@ -83,8 +83,8 @@ MainActivity extends AppCompatActivity  implements View.OnClickListener{
         this.getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.container_content,mMainFragment)
-//                .add(R.id.container_content,mMeFragment)
- //               .hide(mMeFragment)
+                .add(R.id.container_content,mMeFragment)
+                .hide(mMeFragment)
 //                //事物添加  默认：显示首页  其他页面：隐藏
 //                //提交
                 .commit();
@@ -116,11 +116,11 @@ MainActivity extends AppCompatActivity  implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()){
             case  R.id.menu_main://首页
-//                this.getSupportFragmentManager()
-//                        .beginTransaction()
-//                        .show(mMainFragment)
-//                        .hide(mMeFragment)
-//                        .commit();
+                this.getSupportFragmentManager()
+                        .beginTransaction()
+                        .show(mMainFragment)
+                        .hide(mMeFragment)
+                        .commit();
                 mainImageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.icon_education));
                 findImageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.icon_scan2));
                 meImageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.icon_person2));
@@ -130,11 +130,11 @@ MainActivity extends AppCompatActivity  implements View.OnClickListener{
                 break;
 
             case  R.id.menu_san://扫码
-//                this.getSupportFragmentManager()
-//                        .beginTransaction()
-//                        .hide(mMainFragment)
-//                        .hide(mMeFragment)
-//                        .commit();
+                this.getSupportFragmentManager()
+                        .beginTransaction()
+                        .hide(mMainFragment)
+                        .hide(mMeFragment)
+                        .commit();
                 Intent intent = new Intent(mContext, CaptureActivity.class);
                 startActivityForResult(intent, REQ_CODE);
                 mainImageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.icon_education2));
@@ -145,11 +145,11 @@ MainActivity extends AppCompatActivity  implements View.OnClickListener{
                 meTV.setTextColor(Color.parseColor("#000000"));
                 break;
             case  R.id.menu_me://我的
-//                this.getSupportFragmentManager()
-//                        .beginTransaction()
-//                        .hide(mMainFragment)
-//                        .show(mMeFragment)
-//                        .commit();
+                this.getSupportFragmentManager()
+                        .beginTransaction()
+                        .hide(mMainFragment)
+                        .show(mMeFragment)
+                        .commit();
                 mainImageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.icon_education2));
                 findImageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.icon_scan2));
                 meImageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.icon_person));

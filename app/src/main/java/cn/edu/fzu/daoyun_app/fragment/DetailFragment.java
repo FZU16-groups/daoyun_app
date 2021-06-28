@@ -68,7 +68,13 @@ public class DetailFragment extends Fragment implements CompoundButton.OnChecked
         termTV.setText(ClassTabActivity.term);
         teacherNameTv.setText(ClassTabActivity.classId);
         permitaddClassCB.setOnCheckedChangeListener( this);
-
+if(ClassTabActivity.enterType.equals("create"))
+{
+    backBtn.setText("结束班课");
+}else
+    {
+        backBtn.setText("退出班课");
+    }
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

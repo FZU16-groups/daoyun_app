@@ -245,14 +245,14 @@ public class MemberFragment extends Fragment {
                                                 intent.putExtra("limitDistance", jsonObject2.getString("limitdis"));
                                                 intent.putExtra("second", reminTime);
                                                 intent.putExtra("signinId", signinId);
-                                                startActivity(intent);
+                                                getActivity().startActivityForResult(intent,ClassTabActivity.ADD_EXPER);
                                             } else {
                                                 Intent intent = new Intent(getContext(), OneBtnSignInActivity.class);
                                                 intent.putExtra("longitude", jsonObject2.getString("position_x"));
                                                 intent.putExtra("latitude", jsonObject2.getString("position_y"));
                                                 intent.putExtra("limitDistance", jsonObject2.getString("limitdis"));
                                                 intent.putExtra("signinId", signinId);
-                                                startActivity(intent);
+                                                getActivity().startActivityForResult(intent,ClassTabActivity.ADD_EXPER);
                                             }
                                         } catch (JSONException e) {
                                             e.printStackTrace();
@@ -411,10 +411,10 @@ public class MemberFragment extends Fragment {
                             Log.i("limitsignininfo", jsonObject.toString());
                             Log.i("secondinfo", String.valueOf(minute * 60));
                             String signinId = jsonObject.getJSONObject("data").getJSONObject("sendSignIn").getString("ssId").toString();
-                            startActivityForResult(new Intent(getActivity(), FinishSignInActivity.class)
+                            startActivity(new Intent(getActivity(), FinishSignInActivity.class)
                                     .putExtra("signin_mode", "2")
                                     .putExtra("second", String.valueOf(minute * 60))
-                                    .putExtra("signinId", signinId), 1);
+                                    .putExtra("signinId", signinId));
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -434,7 +434,7 @@ public class MemberFragment extends Fragment {
     }
 
     private void showPopupMenu(View view) {
-
+        Looper.prepare();
         new XPopup.Builder(getContext())
                 .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                 .asBottomList("", new String[]{"一键签到", "限时签到"},
@@ -451,7 +451,8 @@ public class MemberFragment extends Fragment {
 //
                                     case "限时签到":
                                         //  bottomDialog.dismiss();
-                                        onTimePicker(view);
+                                        //limitSignin(11)
+                                         onTimePicker(view);
                                         //进入手势签到设置
                                         //  startActivity(new Intent(getContext(), GestureSettingActivity.class));
                                         break;
@@ -460,6 +461,7 @@ public class MemberFragment extends Fragment {
                             }
                         })
                 .show();
+          Looper.loop();
 
     }
 
@@ -513,7 +515,7 @@ public class MemberFragment extends Fragment {
         });
     }
 
-    private void initMember() {
+    public void initMember() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -670,9 +672,9 @@ public class MemberFragment extends Fragment {
                     }
                 }
                 for (int i = 0; i < memberList.size(); i++) {
-
                     String rank = rankDict.get(memberList.get(i).getExperience_score());
                     memberList.get(i).setRanking(rank);
+                    AlertDialogUtil.showToastText(memberList.get(i).getMemberName(),getActivity());
                 }
 
                 rankTV.setText("第" + rankDict.get(userExperienceScore) + "名");

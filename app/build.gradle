@@ -18,8 +18,16 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            android.applicationVariants.all {
+                variant ->
+                    variant.outputs.all {
+                        // 此处指定生成的apk文件名
+                        outputFileName = "daoyun1.0.apk"
+                    }
+            }
+
         }
     }
     compileOptions {

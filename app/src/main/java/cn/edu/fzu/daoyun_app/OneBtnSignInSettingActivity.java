@@ -148,9 +148,6 @@ public class OneBtnSignInSettingActivity extends AppCompatActivity {
                                                                intent.putExtra("second", "0");
                                                                startActivity(intent);
 
-                                    //                                    runOnUiThread(new Runnable() {
-//                                        @Override
-//                                        public void run() {
 //                                            AlertDialog.Builder builder = new AlertDialog.Builder(OneBtnSignInSettingActivity.this)
 //                                                    .setMessage("一键签到设置成功！")
 //                                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -200,7 +197,11 @@ public class OneBtnSignInSettingActivity extends AppCompatActivity {
         progressDialog.show();
         locationClient.start();
     }
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+    }
     public void showAlertDialog(String msg){
         AlertDialog.Builder builder = new AlertDialog.Builder(OneBtnSignInSettingActivity.this)
                 .setMessage(msg)
