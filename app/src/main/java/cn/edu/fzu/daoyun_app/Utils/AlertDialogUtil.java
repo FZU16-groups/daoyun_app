@@ -158,7 +158,7 @@ public class AlertDialogUtil {
                 () -> {
                     new AlertDialog.Builder(activity)
                             .setTitle("提示")
-                            .setMessage("当前应用需要打开定位功能。\\n\\n请点击\\\"设置\\\"-\\\"定位服务\\\"-打开定位功能。")
+                            .setMessage("当前应用需要打开定位功能。\n\n请点击\"设置\"-\"定位服务\"-打开定位功能。")
                             // 拒绝, 退出应用
                             .setNegativeButton(R.string.cancel,
                                     (dialog, which) -> activity.finish())

@@ -31,6 +31,7 @@ import java.io.IOException;
 
 import cn.edu.fzu.daoyun_app.Config.GConfig;
 import cn.edu.fzu.daoyun_app.Config.UrlConfig;
+import cn.edu.fzu.daoyun_app.Utils.AlertDialogUtil;
 import cn.edu.fzu.daoyun_app.Utils.OkHttpUtil;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -99,14 +100,16 @@ public class OneBtnSignInSettingActivity extends AppCompatActivity {
         latitudeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getLongitudeLatitude();
+                if(AlertDialogUtil.checkGPSIsOpen(OneBtnSignInSettingActivity.this)){
+                getLongitudeLatitude();}
             }
         });
         longitudeLayout = findViewById(R.id.longitude_layout);
         longitudeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getLongitudeLatitude();
+                if(AlertDialogUtil.checkGPSIsOpen(OneBtnSignInSettingActivity.this)){
+                getLongitudeLatitude();}
             }
         });
         latitudeTV = findViewById(R.id.latitude_Tv);
@@ -121,7 +124,7 @@ public class OneBtnSignInSettingActivity extends AppCompatActivity {
                     showAlertDialog("请输入签到极限距离！");
                 }else if(experienceSettingTV.getText().toString().equals("")){
                     showAlertDialog("请选择签到经验值！");
-                }else{
+                }else {
                     if(longitudeTV.getText().toString().equals("") && latitudeTV.getText().toString().equals("")){
                         getLongitudeLatitude();
                     }

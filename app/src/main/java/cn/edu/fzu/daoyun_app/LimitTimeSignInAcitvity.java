@@ -90,13 +90,13 @@ public class LimitTimeSignInAcitvity extends AppCompatActivity {
         oneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressDialog = new ProgressDialog(LimitTimeSignInAcitvity.this);
+                if(AlertDialogUtil.checkGPSIsOpen(LimitTimeSignInAcitvity.this)){ progressDialog = new ProgressDialog(LimitTimeSignInAcitvity.this);
                 progressDialog.setMessage("获取定位中...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
                 locationClient = new LocationClient(getApplicationContext());
                 locationClient.registerLocationListener(new LimitTimeSignInAcitvity.MyLocationListener());
-                locationClient.start();
+                locationClient.start();}
             }
         });
     }

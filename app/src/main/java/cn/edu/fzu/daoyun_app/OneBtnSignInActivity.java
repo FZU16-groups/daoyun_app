@@ -96,6 +96,7 @@ public class OneBtnSignInActivity extends AppCompatActivity {
         oneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(AlertDialogUtil.checkGPSIsOpen(OneBtnSignInActivity.this)){
                 progressDialog = new ProgressDialog(OneBtnSignInActivity.this);
                 progressDialog.setMessage("获取定位中...");
                 progressDialog.setCancelable(false);
@@ -104,6 +105,9 @@ public class OneBtnSignInActivity extends AppCompatActivity {
                 locationClient.registerLocationListener(new MyLocationListener());
                 locationClient.start();
             }
+            else {
+                AlertDialogUtil.openGPSSettings(OneBtnSignInActivity.this);
+                }}
         });
     }
 
