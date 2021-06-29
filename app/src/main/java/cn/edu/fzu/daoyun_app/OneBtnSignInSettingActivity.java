@@ -44,6 +44,7 @@ public class OneBtnSignInSettingActivity extends AppCompatActivity {
 
     private EditText distanceLimitET;
     private Button startOneBtn;
+    private Button backBtn;
     private TextView experienceSettingTV;
     private LinearLayout latitudeLayout;
     private LinearLayout longitudeLayout;
@@ -62,7 +63,13 @@ public class OneBtnSignInSettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 //        SharedPreferences preferences = getSharedPreferences("sigin", MODE_PRIVATE);
         setContentView(R.layout.content_one_btn_sign_in_setting);
-
+        backBtn = findViewById(R.id.toolbar_left_btn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         locationClient = new LocationClient(getApplicationContext());
         locationClient.registerLocationListener(new MyLocationListener());
 

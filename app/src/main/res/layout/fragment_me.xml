@@ -30,7 +30,9 @@
             android:text="点击设置用户详细信息"
             android:textColor="@color/text_secondary_color"
             android:textSize="15dp" />
+
         <ImageView
+            android:id="@+id/detail_img"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
@@ -330,9 +332,10 @@
                 android:layout_marginTop="10dp" />
 
             <LinearLayout
-                android:layout_marginTop="10dp"
+                android:id="@+id/user_motify_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <ImageView

@@ -6,9 +6,13 @@ import java.util.List;
 public class GConfig {
     private static String USER_TOKEN="";
     public static  List<String> CLASSNAMES = new ArrayList<String>();
+    public static String Uid="";
 
     public static String getUserToken() {
         return USER_TOKEN;
+    }
+    public static void setUid(String uid) {
+        Uid=uid;
     }
 
     public static void setUserToken(String userToken) {

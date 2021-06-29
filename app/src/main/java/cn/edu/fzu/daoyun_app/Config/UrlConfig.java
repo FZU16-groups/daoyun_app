@@ -23,6 +23,11 @@ public class UrlConfig {
         CLASS_STUDENT,
         SIGNIN_STUDENT,
         STUDENT_SIGNIN_INFO,
+        UPDATE_USER,
+        MODIFY_PAS,
+        TEACHER_CHECK_RECORD,
+        TEACHER_CHECK_SIGNIN,
+
     }
 
     public static String getUrl(UrlType urlType) {
@@ -54,9 +59,17 @@ public class UrlConfig {
             case CLASS_STUDENT:
                 return ORIGION_URL+"selectStudentsByCourseNumber.do";
             case SIGNIN_STUDENT:
-                return ORIGION_URL+"SignInInform.do";
+                return ORIGION_URL+"selectSignInInformByssId.do";
             case STUDENT_SIGNIN_INFO:
                 return ORIGION_URL+"selectSignInMessageBycNumber.do";
+            case UPDATE_USER:
+                return ORIGION_URL+"updateUserAndRole.do";
+            case MODIFY_PAS:
+                return ORIGION_URL+"updatePassword.do ";
+            case TEACHER_CHECK_RECORD:
+                return ORIGION_URL+"selectSendSignInMessageBycNumerAndpeId.do";
+            case TEACHER_CHECK_SIGNIN:
+                return ORIGION_URL+"selectSignInInformByssId.do";
             default:
                 return ORIGION_URL + "message?phone=";
         }

@@ -77,9 +77,9 @@ public class LimitTimeSignInAcitvity extends AppCompatActivity {
 //        Log.i("DistanceCalculate", String.valueOf(value));
 
         Intent intent = getIntent();
-        teacherLongitude = Double.valueOf(intent.getStringExtra("longitude"));
-        teacherLatitude = Double.valueOf(intent.getStringExtra("latitude"));
-        distanceLimit = Double.valueOf(intent.getStringExtra("limitDistance"));
+       // teacherLongitude = Double.valueOf(intent.getStringExtra("longitude"));
+       // teacherLatitude = Double.valueOf(intent.getStringExtra("latitude"));
+        //distanceLimit = Double.valueOf(intent.getStringExtra("limitDistance"));
         Log.i("studentsignininfo",teacherLongitude+teacherLatitude+"");
         signinId = intent.getStringExtra("signinId");
         //设置倒计时
@@ -214,12 +214,12 @@ public class LimitTimeSignInAcitvity extends AppCompatActivity {
             latitude = bdLocation.getLatitude();
             longitude = bdLocation.getLongitude();
             progressDialog.dismiss();
-            double distance = getDistance(longitude, latitude, teacherLongitude, teacherLatitude);
+           // double distance = getDistance(longitude, latitude, teacherLongitude, teacherLatitude);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
 
-                    Log.i("studentsignininfo",longitude+latitude+"");
+                    Log.i("studentsignininfo",longitude+":::"+latitude+"");
                     com.alibaba.fastjson.JSONObject json = new com.alibaba.fastjson.JSONObject();
                     json.put("cNumber", ClassTabActivity.classId);
                     json.put("ssId", signinId);
@@ -236,7 +236,7 @@ public class LimitTimeSignInAcitvity extends AppCompatActivity {
                         @Override
                         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                             final String responseBodyStr = response.body().string();
-
+                            Log.i("longitudelatitude",  longitude+latitude+"");
                             Log.i("studentsignininfo",  responseBodyStr);
                             if(responseBodyStr.contains("请勿重复签到")) {
                                 AlertDialogUtil.showToastText("请勿重复签到", LimitTimeSignInAcitvity.this);

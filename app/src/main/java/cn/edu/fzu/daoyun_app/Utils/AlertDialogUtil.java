@@ -1,6 +1,10 @@
 package cn.edu.fzu.daoyun_app.Utils;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.location.LocationManager;
+import android.provider.Settings;
 import android.widget.Toast;
 
 
@@ -18,11 +22,14 @@ import androidx.appcompat.app.AlertDialog;
 import com.google.zxing.common.BitmapUtils;
 
 import cn.edu.fzu.daoyun_app.QRCodeDialog;
+import cn.edu.fzu.daoyun_app.R;
 
 /**
  * 常见的弹框工具类
  */
 public class AlertDialogUtil {
+
+    public static int GPS_REQUEST_CODE=10222;
 
     /**
      * 添加确认框
@@ -128,6 +135,43 @@ public class AlertDialogUtil {
                         e.printStackTrace();
                     }
                 });
+    }
+    /**
+     * 检测GPS是否打开
+     *
+     * @return
+     */
+    public static boolean checkGPSIsOpen(Activity activity) {
+        boolean isOpen;
+        LocationManager locationManager = (LocationManager) activity
+                .getSystemService(Context.LOCATION_SERVICE);
+        isOpen = locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER);
+        return isOpen;
+    }
+
+    /**
+     * 跳转GPS设置
+     */
+    public static void openGPSSettings(Activity activity) {
+        //没有打开则弹出对话框
+        activity.runOnUiThread(
+                () -> {
+                    new AlertDialog.Builder(activity)
+                            .setTitle("提示")
+                            .setMessage("当前应用需要打开定位功能。\\n\\n请点击\\\"设置\\\"-\\\"定位服务\\\"-打开定位功能。")
+                            // 拒绝, 退出应用
+                            .setNegativeButton(R.string.cancel,
+                                    (dialog, which) -> activity.finish())
+                            .setPositiveButton("设置",
+                                    (dialog, which) -> {
+                                        //跳转GPS设置界面
+                                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                        activity.startActivityForResult(intent, GPS_REQUEST_CODE);
+                                    })
+                            .setCancelable(false)
+                            .show();
+                }
+        );
     }
 
 }

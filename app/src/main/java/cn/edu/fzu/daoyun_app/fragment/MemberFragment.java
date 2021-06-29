@@ -65,6 +65,7 @@ import cn.edu.fzu.daoyun_app.Member;
 import cn.edu.fzu.daoyun_app.OneBtnSignInActivity;
 import cn.edu.fzu.daoyun_app.OneBtnSignInSettingActivity;
 import cn.edu.fzu.daoyun_app.R;
+import cn.edu.fzu.daoyun_app.SignInRecoderActivity;
 import cn.edu.fzu.daoyun_app.Utility;
 import cn.edu.fzu.daoyun_app.Utils.AlertDialogUtil;
 import cn.edu.fzu.daoyun_app.Utils.OkHttpUtil;
@@ -147,123 +148,9 @@ public class MemberFragment extends Fragment {
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (ClassTabActivity.enterType.equals("create")) {
-
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            com.alibaba.fastjson.JSONObject json = new com.alibaba.fastjson.JSONObject();
-                            json.put("cNumber", ClassTabActivity.classId);
-                            json.put("peId", MainActivity.peid);
-                            OkHttpUtil.getInstance().PostWithJson(UrlConfig.getUrl(UrlConfig.UrlType.JUDGE_SIGNIN), json, new Callback() {
-                                @Override
-                                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                                    Log.i("错误的返回", e.getMessage());
-                                }
-
-                                @Override
-                                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                                    String responseBodyStr = response.body().string();
-                                    com.alibaba.fastjson.JSONObject messjsonObject = com.alibaba.fastjson.JSONObject.parseObject(responseBodyStr);
-                                    //if (messjsonObject.get("message").toString().equals("Ok")) {
-                                    Log.i("judgesinginfo", responseBodyStr);
-                                    if (messjsonObject.get("message").toString().equals("Ok")) {
-                                        // setDialog();
-                                        showPopupMenu(v);
-                                    } else if (responseBodyStr.contains("还有签到未结束")) {
-                                        try {
-                                            JSONObject jsonObject = new JSONObject(responseBodyStr);
-                                            if (responseBodyStr.contains("OneButton")) {
-                                                JSONObject jsonObject2 = jsonObject.getJSONObject("data").getJSONObject("OneButton");
-                                                String signinId = jsonObject2.getString("ssId");
-                                                String signinType = jsonObject2.getString("type");
-                                                //进入签到页面
-                                                Intent intent = new Intent(getContext(), FinishSignInActivity.class);
-                                                intent.putExtra("signin_mode", "1");
-                                                intent.putExtra("signinId", signinId);
-                                                intent.putExtra("second", "0");
+                Intent intent = new Intent(getContext(), SignInRecoderActivity.class);
                                                 startActivity(intent);
-                                            } else {
 
-
-                                                JSONObject jsonObject2 = jsonObject.getJSONObject("data").getJSONObject("LimitTime");
-                                                String signinId = jsonObject2.getString("ssId");
-                                                String signinType = jsonObject2.getString("type");
-                                                //进入签到页面
-                                                Intent intent = new Intent(getContext(), FinishSignInActivity.class);
-                                                intent.putExtra("signin_mode", "2");
-                                                intent.putExtra("signinId", signinId);
-                                                intent.putExtra("second", "0");
-                                                startActivity(intent);
-                                            }
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-
-                                }
-                            });
-                        }
-
-                    }).start();
-                } else {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            com.alibaba.fastjson.JSONObject json = new com.alibaba.fastjson.JSONObject();
-                            json.put("cNumber", ClassTabActivity.classId);
-                            OkHttpUtil.getInstance().PostWithJson(UrlConfig.getUrl(UrlConfig.UrlType.STUDENT_JUDGE_SIGNIN), json, new Callback() {
-                                @Override
-                                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                                    Log.i("错误的返回", e.getMessage());
-                                }
-
-
-                                @Override
-                                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                                    String responseBodyStr = response.body().string();
-                                    if (responseBodyStr.contains("老师没有开始签到")) {
-                                        AlertDialogUtil.showToastText("当前老师并未发起签到！", getActivity());
-                                    } else if (responseBodyStr.contains("签到已结束")) {
-                                        AlertDialogUtil.showToastText("签到已结束", getActivity());
-                                    } else {
-                                        try {
-                                            Log.i("judgesigninInfo", responseBodyStr);
-                                            JSONObject jsonObject = new JSONObject(responseBodyStr);
-                                            JSONObject jsonObject2 = jsonObject.getJSONObject("data").getJSONObject("sendSignIn");
-
-                                            String signinType = jsonObject2.getString("type");
-                                            String signinId = jsonObject2.getString("ssId");
-                                            if (signinType.equals("2")) {
-                                                String reminTime = jsonObject2.getString("reminTime");
-//                                                GraphicLockView.mPassword = jsonObject.getString("gesturePassword");
-                                                Log.i("reminTimeInfo", reminTime);
-                                                Intent intent = new Intent(getContext(), LimitTimeSignInAcitvity.class);
-                                                intent.putExtra("longitude", jsonObject2.getString("position_x"));
-                                                intent.putExtra("latitude", jsonObject2.getString("position_y"));
-                                                intent.putExtra("limitDistance", jsonObject2.getString("limitdis"));
-                                                intent.putExtra("second", reminTime);
-                                                intent.putExtra("signinId", signinId);
-                                                getActivity().startActivityForResult(intent,ClassTabActivity.ADD_EXPER);
-                                            } else {
-                                                Intent intent = new Intent(getContext(), OneBtnSignInActivity.class);
-                                                intent.putExtra("longitude", jsonObject2.getString("position_x"));
-                                                intent.putExtra("latitude", jsonObject2.getString("position_y"));
-                                                intent.putExtra("limitDistance", jsonObject2.getString("limitdis"));
-                                                intent.putExtra("signinId", signinId);
-                                                getActivity().startActivityForResult(intent,ClassTabActivity.ADD_EXPER);
-                                            }
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-
-                                    }
-                                }
-                            });
-                        }
-                    }).start();
-                }
             }
         });
 
@@ -290,6 +177,8 @@ public class MemberFragment extends Fragment {
         memberAdapter.notifyDataSetChanged();
         swipeRefreshLayout.setRefreshing(false);
     }
+
+
 
     public void onTimePicker(View view) {
         LinkagePicker.DataProvider provider = new LinkagePicker.DataProvider() {
@@ -357,6 +246,7 @@ public class MemberFragment extends Fragment {
         Looper.loop();
         initMember();
     }
+
 
     class MyLocationListener extends BDAbstractLocationListener {
         @Override
@@ -674,60 +564,12 @@ public class MemberFragment extends Fragment {
                 for (int i = 0; i < memberList.size(); i++) {
                     String rank = rankDict.get(memberList.get(i).getExperience_score());
                     memberList.get(i).setRanking(rank);
-                    AlertDialogUtil.showToastText(memberList.get(i).getMemberName(),getActivity());
+                  //  AlertDialogUtil.showToastText(memberList.get(i).getMemberName(),getActivity());
                 }
 
                 rankTV.setText("第" + rankDict.get(userExperienceScore) + "名");
                 experTV.setText("当前获得" + userExperienceScore + "经验值");
 
-//
-//                for(int i = experienceList.size() - 1 ; i >= 0; i--){
-//                    for(int m = 0 ; m < i ; m++){
-//                        if(experienceList.get(m) < experienceList.get(m+1)){
-//                            int temp = experienceList.get(m);
-//                            experienceList.set(m, experienceList.get(m+1));
-//                            experienceList.set(m+1, temp);
-//                            temp = indexList.get(m);
-//                            indexList.set(m, indexList.get(m+1));
-//                            indexList.set(m+1, temp);
-//                        }
-//                    }
-//                }
-//                int flag = -1;
-//                Log.i("MemberFragInfo","tempSize:"+memberList.size());
-//                try{
-//                    for(int i = 0 ; i < experienceList.size() ; i++){
-//                        tempMemberList.set(i, memberList.get(indexList.get(i)));
-//                        if(indexList.get(i) == userMark){
-//                            userMark = i;
-//                        }
-//                        flag = i;
-//                    }
-//                }catch (Exception e){
-//                    e.printStackTrace();
-//                    Log.i("MemberFragInfo",flag+"");
-//                }
-//
-////                memberList = tempMemberList;
-//                for(int i = 0 ; i < experienceList.size() ; i++){
-//                    memberList.set(i, tempMemberList.get(i));
-//                }
-//                int index = 1;
-//                for(int i = 0 ; i < experienceList.size() ; i++){
-//                    if(i == 0){
-//                        indexList.set(i, 1);
-//                    }else if(experienceList.get(i) == experienceList.get(i-1)){
-//                        indexList.set(i, index);
-//                    }else if(experienceList.get(i) != experienceList.get(i-1)){
-//                        index++;
-//                        indexList.set(i, index);
-//                    }
-//                    memberList.get(i).setRanking(String.valueOf(indexList.get(i)));
-//                    if(userMark == i && !ClassTabActivity.enterType.equals("create")){
-//                        rankTV.setText("第" + index + "名");
-//                        experTV.setText("当前获得" + userExperienceScore + "经验值");
-//                    }
-//                }
                 memberAdapter = new MemberAdapter(getContext(), R.layout.member_item, memberList);
 //                View view = getLayoutInflater().inflate(R.layout.fragment_member, null);
                 listView = getActivity().findViewById(R.id.member_list_view);
@@ -737,7 +579,6 @@ public class MemberFragment extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Member member = memberList.get(position);
-                        Toast.makeText(getContext(), member.getMemberName(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }

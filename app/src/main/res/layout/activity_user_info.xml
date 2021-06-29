@@ -10,7 +10,8 @@
     app:left_btn_src="@mipmap/icon_back"
     app:title_visible="true"
     app:title_text="用户信息"
-    tools:context="com.example.test.UserInfoActivity">
+    android:background="#f2f4fd"
+    tools:context=".UserInfoActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -25,6 +26,7 @@
                 android:id="@+id/edit_user_icon_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -32,56 +34,49 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_margin="15dp"
-                    android:src="@drawable/course_img_1"/>
+
+                    app:srcCompat="@mipmap/head" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_weight="1.0"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/user_name_Tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
                         android:text="用户名"
-                        android:textSize="15dp"
-                        android:textColor="@android:color/black"
-                        android:layout_marginTop="20dp"/>
+                        android:textColor="#474748"
+                        android:textSize="15dp" />
 
                     <TextView
                         android:id="@+id/user_phone_Tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:text="15606935509"
-                        android:textSize="15dp"
-                        android:textColor="@android:color/black"
-                        android:layout_marginTop="10dp"/>
+                        android:textColor="#474748"
+                        android:textSize="15dp" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_marginTop="25dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@mipmap/icon_forward"/>
-
-                </LinearLayout>
+                    android:orientation="vertical"/>
 
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:background="#D8DDE1"
-                android:layout_height="10dp"/>
+                android:layout_height="10dp"
+                android:background="#f2f4fd" />
 
             <LinearLayout
+                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -90,8 +85,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:text="姓名"
-                    android:textColor="@android:color/black"
+                    android:text="用户名"
+                    android:textColor="#5b5b5c"
                     android:textSize="18dp" />
 
                 <EditText
@@ -103,7 +98,8 @@
                     android:layout_marginRight="15dp"
                     android:background="@null"
                     android:gravity="right|center_vertical"
-                    android:hint="未设置" />
+                    android:hint="未设置"
+                    android:textColor="@color/login_other_color"/>
 
             </LinearLayout>
 
@@ -113,6 +109,7 @@
                 android:layout_height="1dp"/>
 
             <LinearLayout
+                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -121,12 +118,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:text="用户名"
-                    android:textColor="@android:color/black"
+                    android:text="手机号"
+                    android:textColor="#5b5b5c"
                     android:textSize="18dp" />
 
                 <EditText
-                    android:id="@+id/userName_Et"
+                    android:id="@+id/usersphone_Et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -134,7 +131,8 @@
                     android:layout_marginRight="15dp"
                     android:background="@null"
                     android:gravity="right|center_vertical"
-                    android:hint="未设置" />
+                    android:hint="未设置"
+                    android:textColor="@color/login_other_color"/>
 
             </LinearLayout>
 
@@ -144,6 +142,7 @@
                 android:layout_height="1dp"/>
 
             <LinearLayout
+                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -153,11 +152,11 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:text="邮箱"
-                    android:textColor="@android:color/black"
+                    android:textColor="#5b5b5c"
                     android:textSize="18dp" />
 
                 <EditText
-                    android:id="@+id/email_Et"
+                    android:id="@+id/info_email_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -165,17 +164,13 @@
                     android:layout_marginRight="15dp"
                     android:background="@null"
                     android:gravity="right|center_vertical"
-                    android:hint="未设置" />
+                    android:hint="未设置"
+                    android:textColor="@color/login_other_color" />
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:background="#D8DDE1"
-                android:layout_height="1dp"/>
 
             <LinearLayout
-                android:id="@+id/birth_year_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -184,263 +179,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:text="出生年份"
-                    android:textColor="@android:color/black"
-                    android:textSize="18dp"/>
+                    android:text="创建时间"
+                    android:textColor="#5b5b5c"
+                    android:textSize="18dp" />
 
                 <TextView
-                    android:id="@+id/birth_year_Tv"
+                    android:id="@+id/create_time_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="15dp"
-                    android:background="@null"
                     android:layout_marginTop="10dp"
-                    android:textSize="18dp"
-                    android:gravity="right|center_vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="未设置"/>
+                    android:layout_marginRight="15dp"
+                    android:gravity="right"
+                    android:text="2021-04-01"
+                    android:textColor="#5b5b5c"
+                    android:textSize="18dp" />
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#D8DDE1"
-                android:orientation="horizontal">
+<!--            <View-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:background="#D8DDE1"-->
+<!--                android:layout_height="1dp"/>-->
 
-                <TextView
-                    android:layout_margin="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15dp"
-                    android:text="选择性别"/>
 
-            </LinearLayout>
-
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.0"
-                        android:layout_margin="10dp"
-                        android:textColor="@android:color/black"
-                        android:textSize="18dp"
-                        android:text="男"/>
-
-                    <RadioButton
-                        android:id="@+id/rbtn_male"
-                        android:layout_gravity="center_vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
-                        android:checked="true"/>
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:background="#D8DDE1"
-                    android:layout_height="1dp"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#D8DDE1" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.0"
-                        android:layout_margin="10dp"
-                        android:textColor="@android:color/black"
-                        android:textSize="18dp"
-                        android:text="女"/>
-
-                    <RadioButton
-                        android:id="@+id/rbtn_female"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="15dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
-
-            </RadioGroup>
-
-            <View
-                android:layout_width="match_parent"
-                android:background="#D8DDE1"
-                android:layout_height="15dp"/>
-
-            <LinearLayout
-                android:id="@+id/school_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.0"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="你所在的学校及院系"
-                        android:layout_marginLeft="10dp"
-                        android:textSize="18dp"
-                        android:layout_marginTop="10dp"
-                        android:textColor="@android:color/black" />
-
-                    <TextView
-                        android:id="@+id/school_Tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="请选择学校及院系"
-                        android:layout_marginLeft="10dp"
-                        android:textSize="18dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="3dp"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_marginTop="15dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@mipmap/icon_forward"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#D8DDE1"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_margin="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15dp"
-                    android:text="选择身份"/>
-
-            </LinearLayout>
-
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.0"
-                        android:layout_margin="10dp"
-                        android:textColor="@android:color/black"
-                        android:textSize="18dp"
-                        android:text="我是老师"/>
-
-                    <RadioButton
-                        android:id="@+id/rbtn_teacher"
-                        android:layout_gravity="center_vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
-                        android:checked="true"/>
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:background="#D8DDE1"
-                    android:layout_height="1dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.0"
-                        android:layout_margin="10dp"
-                        android:textColor="@android:color/black"
-                        android:textSize="18dp"
-                        android:text="我是学生"/>
-
-                    <RadioButton
-                        android:id="@+id/rbtn_student"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="15dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:background="#D8DDE1"
-                    android:layout_height="1dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.0"
-                        android:layout_margin="10dp"
-                        android:textColor="@android:color/black"
-                        android:textSize="18dp"
-                        android:text="其他"/>
-
-                    <RadioButton
-                        android:id="@+id/rbtn_else"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="15dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
-
-            </RadioGroup>
-
-            <View
-                android:layout_width="match_parent"
-                android:background="#D8DDE1"
-                android:layout_height="20dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -452,37 +214,38 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:text="学号/工号"
-                    android:textColor="@android:color/black"
-                    android:textSize="18dp"/>
+                    android:textColor="#5b5b5c"
+                    android:textSize="18dp" />
 
-                <EditText
-                    android:id="@+id/id_Et"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="15dp"
-                    android:background="@null"
-                    android:layout_marginTop="10dp"
-                    android:gravity="right|center_vertical"
+                <TextView
+                    android:id="@+id/userid_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="未设置"/>
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="15dp"
+                    android:gravity="right"
+                    android:text="200327072"
+                    android:textColor="#5b5b5c"
+                    android:textSize="18dp" />
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:background="#D8DDE1"
-                android:layout_marginBottom="20dp"
-                android:layout_height="1dp"/>
+<!--            <View-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:background="#D8DDE1"-->
+<!--                android:layout_marginBottom="20dp"-->
+<!--                android:layout_height="1dp"/>-->
 
             <Button
-                android:id="@+id/save_info_btn"
-                android:background="#32A082"
-                android:textSize="18dp"
-                android:textColor="@android:color/white"
-                android:layout_margin="20dp"
+                android:id="@+id/save_pas_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="保  存"/>
+                android:layout_margin="20dp"
+                android:background="#648bfb"
+                android:text="保  存"
+                android:textColor="@android:color/white"
+                android:textSize="18dp" />
 
         </LinearLayout>
 

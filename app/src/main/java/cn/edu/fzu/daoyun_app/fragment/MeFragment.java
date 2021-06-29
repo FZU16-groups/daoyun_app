@@ -26,7 +26,9 @@ import java.io.IOException;
 
 import cn.edu.fzu.daoyun_app.LoginActivity;
 import cn.edu.fzu.daoyun_app.MainActivity;
+import cn.edu.fzu.daoyun_app.ModifyPasActivity;
 import cn.edu.fzu.daoyun_app.R;
+import cn.edu.fzu.daoyun_app.UserInfoActivity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -45,6 +47,7 @@ public class MeFragment extends Fragment {
     protected Button logoutBtn;
     private TextView username;
     public static ImageView userIconIV;
+    public static ImageView userInfoImg;
     public static File iconFile = null;
     private String path;
 
@@ -97,20 +100,21 @@ public class MeFragment extends Fragment {
         username= getActivity().findViewById(R.id.user_name);
         username.setText(MainActivity.userName);
         userInfoLayout = getActivity().findViewById(R.id.layout_me_header);
-        userInfoLayout.setOnClickListener(new View.OnClickListener() {
+        userInfoImg=getActivity().findViewById(R.id.detail_img);
+        userInfoImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(getContext(), UserInfoActivity.class);
-//                startActivityForResult(intent, 1);
+                Intent intent = new Intent(getContext(), UserInfoActivity.class);
+                startActivity(intent);
             }
         });
 
-        LinearLayout linearLayout = getActivity().findViewById(R.id.user_protocol_layout);
+        LinearLayout linearLayout = getActivity().findViewById(R.id.user_motify_layout);
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(getContext(), UserProtocolActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(getContext(), ModifyPasActivity.class);
+                startActivity(intent);
             }
         });
 

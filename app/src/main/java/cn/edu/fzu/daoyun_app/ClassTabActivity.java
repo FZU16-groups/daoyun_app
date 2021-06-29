@@ -28,14 +28,14 @@ public class ClassTabActivity extends AppCompatActivity implements View.OnClickL
     protected ImageView messageImageView;
     protected ImageView moreImageView;
     // protected ResFragment mResFragment = new ResFragment();
-    protected MemberFragment mMemberFragment = new MemberFragment();
+    public static MemberFragment mMemberFragment = new MemberFragment();
     //    protected ActivityFragment mActivityFragment = new ActivityFragment();
 //    protected MessageFragment mMessageFragment = new MessageFragment();
     protected DetailFragment mdetailFragment = new DetailFragment();
 
     public static String courseName;
     public static String classId;
-    public static String enterType;
+    public static String enterType="create";
     public static String teacherPhone;
     public static String term;
 
@@ -47,6 +47,7 @@ public class ClassTabActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_tab);
         Intent intent = getIntent();
+        mMemberFragment = new MemberFragment();
         courseName = intent.getStringExtra("courseName");
         classId = intent.getStringExtra("classId");
         enterType = intent.getStringExtra("enterType");

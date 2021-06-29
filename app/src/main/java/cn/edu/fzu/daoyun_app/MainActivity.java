@@ -59,6 +59,9 @@ MainActivity extends AppCompatActivity  implements View.OnClickListener{
     public static String loginType;
     public static String name = null;
     public static String phoneNumber="";
+    public static String peNumber="";
+    public static String email="";
+    public static String createtime="";
     public static String peid="";
     public static String role="";
     public int BUFFER_SIZE = 8192;

@@ -300,7 +300,12 @@ public class PasLoginActivity extends AppCompatActivity {
                                 Log.i("LoginInfoInfo", jsonObject.toString());
                                 MainActivity.peid = jsonObject.getJSONObject("data").getJSONObject("person").getString("peId").toString();
                                 MainActivity.userName=jsonObject.getJSONObject("data").getJSONObject("person").getString("peName").toString();
+                                MainActivity.phoneNumber=jsonObject.getJSONObject("data").getJSONObject("user").getString("phone").toString();
+                                MainActivity.peNumber=jsonObject.getJSONObject("data").getJSONObject("person").getString("peNumber").toString();
+                                MainActivity.email=jsonObject.getJSONObject("data").getJSONObject("user").getString("emaile").toString();
+                                MainActivity.createtime=jsonObject.getJSONObject("data").getJSONObject("user").getString("createDate").toString();
                                 GConfig.setUserToken(jsonObject.getJSONObject("data").getString("token")) ;
+                                GConfig.setUid(jsonObject.getJSONObject("data").getJSONObject("user").getString("uId").toString());
                                 Log.i("tokenInfoInfo", GConfig.getUserToken());
                                 Log.i("peIdInfoInfo", MainActivity.peid);
                             } catch (JSONException e) {

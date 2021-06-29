@@ -248,7 +248,7 @@ public class OneBtnSignInActivity extends AppCompatActivity {
                     @Override
                     public void run() {
 
-                        Log.i("studentsignininfo",ClassTabActivity.classId+ signinId+MainActivity.peid+longitude+latitude);
+                        Log.i("studentsignininfo",longitude+":::::"+latitude);
                         com.alibaba.fastjson.JSONObject json = new com.alibaba.fastjson.JSONObject();
                         json.put("cNumber", ClassTabActivity.classId);
                         json.put("ssId", signinId);
@@ -290,6 +290,7 @@ public class OneBtnSignInActivity extends AppCompatActivity {
                                                             AlertDialogUtil.showToastText("获得"+value+"经验值", OneBtnSignInActivity.this);
                                                             Intent intent=new Intent();
                                                             setResult(1,intent);
+                                                            ClassTabActivity.mMemberFragment.refresh();
                                                             finish();
                                                         }
                                                     });

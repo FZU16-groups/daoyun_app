@@ -243,7 +243,7 @@ public class FinishSignInActivity extends AppCompatActivity {
     public void parseJoinedList(String JsonArrayData, final int m) throws JSONException {
         JSONObject obj = new JSONObject(JsonArrayData);
         JSONObject objLocation = obj.getJSONObject("data");
-        JSONArray jsonArray = objLocation.getJSONArray("signInDTOList");
+        JSONArray jsonArray = objLocation.getJSONArray("signedList");
         int rank = 0;
         for(int i = 0 ; i < jsonArray.length() ; i++){
             rank++;
@@ -251,14 +251,14 @@ public class FinishSignInActivity extends AppCompatActivity {
             final String phoneNumber = " ";
             final String name = jsonObject.getString("peName");
             final String IDNumber = jsonObject.getString("peNumber");
-            final String experienceScore = jsonObject.getString("value");
+            final String experienceScore = "2";//jsonObject.getString("value");
            // final String icon = jsonObject.getString("icon");
           //  if(icon.equals("")){
                 Member member;
                 if(name.equals("")){
-                    member = new Member(String.valueOf(rank), R.drawable.course_img_1, phoneNumber, IDNumber, experienceScore+"经验值");
+                    member = new Member(String.valueOf(rank), R.drawable.course_img_1, phoneNumber, IDNumber, experienceScore);
                 }else{
-                    member = new Member(String.valueOf(rank), R.drawable.course_img_1, name, IDNumber, experienceScore+"经验值");
+                    member = new Member(String.valueOf(rank), R.drawable.course_img_1, name, IDNumber, experienceScore);
                 }
                 memberList.add(member);
 //                memberAdapter.notifyDataSetChanged();
