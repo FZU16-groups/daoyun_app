@@ -12,9 +12,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -27,6 +29,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitmapUtils;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.interfaces.OnSelectListener;
+
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.auth.QQToken;
 import com.tencent.connect.common.Constants;
@@ -40,14 +43,25 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import cn.addapp.pickers.listeners.OnItemPickListener;
+import cn.addapp.pickers.listeners.OnMoreItemPickListener;
+import cn.addapp.pickers.listeners.OnSingleWheelListener;
+import cn.addapp.pickers.picker.LinkagePicker;
+import cn.addapp.pickers.picker.SinglePicker;
+import cn.addapp.pickers.picker.TimePicker;
+import cn.addapp.pickers.util.DateUtils;
+import cn.edu.fzu.daoyun_app.Config.GConfig;
 import cn.edu.fzu.daoyun_app.Config.UrlConfig;
+import cn.edu.fzu.daoyun_app.Utils.AlertDialogUtil;
 import cn.edu.fzu.daoyun_app.Utils.OkHttpUtil;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -105,6 +119,26 @@ public class PasLoginActivity extends AppCompatActivity {
         mBtnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+       //         onTimePicker(view);
+              //  onOptionPicker(view);
+//                CommonPickerPopup popup = new CommonPickerPopup(PasLoginActivity.this);
+//                ArrayList<String> list = new ArrayList<String>();
+//                list.add("小猫");
+//                list.add("小狗");
+//                list.add("小羊");
+//                popup.setPickerData(list)
+//                        .setCurrentItem(1);
+//                popup.setCommonPickerListener(new CommonPickerListener() {
+//                    @Override
+//                    public void onItemSelected(int index, String data) {
+//                        Toast.makeText(PasLoginActivity.this, "选中的是 "+ data, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//                new XPopup.Builder(PasLoginActivity.this)
+//                        .asCustom(popup)
+//                        .show();
+
+
 
                 //二维码自定义Dialog测试
 //                String content = "20180912131415";
@@ -206,8 +240,8 @@ public class PasLoginActivity extends AppCompatActivity {
                     Manifest.permission.READ_PHONE_STATE}, 0);
         }
 
-        Properties properties = PropertiesUtill.getProperties();
-        PropertiesUtill.setProperties(PasLoginActivity.this, "gesturePassword", "");
+//        Properties properties = PropertiesUtill.getProperties();
+//        PropertiesUtill.setProperties(PasLoginActivity.this, "gesturePassword", "");
 
     }
 
@@ -265,7 +299,14 @@ public class PasLoginActivity extends AppCompatActivity {
                                 JSONObject jsonObject = new JSONObject(responseBodyStr);
                                 Log.i("LoginInfoInfo", jsonObject.toString());
                                 MainActivity.peid = jsonObject.getJSONObject("data").getJSONObject("person").getString("peId").toString();
-                                //Log.i("LoginInfoInfo", MainActivity.phoneNumber);
+                                MainActivity.userName=jsonObject.getJSONObject("data").getJSONObject("person").getString("peName").toString();
+                                MainActivity.phoneNumber=jsonObject.getJSONObject("data").getJSONObject("user").getString("phone").toString();
+                                MainActivity.peNumber=jsonObject.getJSONObject("data").getJSONObject("person").getString("peNumber").toString();
+                                MainActivity.email=jsonObject.getJSONObject("data").getJSONObject("user").getString("emaile").toString();
+                                MainActivity.createtime=jsonObject.getJSONObject("data").getJSONObject("user").getString("createDate").toString();
+                                GConfig.setUserToken(jsonObject.getJSONObject("data").getString("token")) ;
+                                GConfig.setUid(jsonObject.getJSONObject("data").getJSONObject("user").getString("uId").toString());
+                                Log.i("tokenInfoInfo", GConfig.getUserToken());
                                 Log.i("peIdInfoInfo", MainActivity.peid);
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -417,5 +458,108 @@ public class PasLoginActivity extends AppCompatActivity {
     public static boolean isChinaPhoneLegal(String str) throws PatternSyntaxException {
         Matcher m = CHINA_PATTERN.matcher(str);
         return m.matches();
+    }
+
+    public void onTimePicker(View view) {
+        LinkagePicker.DataProvider provider = new LinkagePicker.DataProvider() {
+
+            @Override
+            public boolean isOnlyTwo() {
+                return true;
+            }
+
+            @Override
+            public List<String> provideFirstData() {
+                ArrayList<String> firstList = new ArrayList<>();
+                for (int i = 0; i <= 23; i++) {
+                    String str = DateUtils.fillZero(i);
+//                    if (firstIndex == 0) {
+//                        str += "￥";
+//                    } else {
+//                        str += "$";
+//                    }
+                    firstList.add(str);
+                }
+                return firstList;
+            }
+
+            @Override
+            public List<String> provideSecondData(int firstIndex) {
+                ArrayList<String> secondList = new ArrayList<>();
+                for (int i = 0; i <= 59; i++) {
+                    String str = DateUtils.fillZero(i);
+//                    if (firstIndex == 0) {
+//                        str += "￥";
+//                    } else {
+//                        str += "$";
+//                    }
+
+                    secondList.add(str);
+                }
+                return secondList;
+            }
+
+            @Override
+            public List<String> provideThirdData(int firstIndex, int secondIndex) {
+                return null;
+            }
+
+        };
+        LinkagePicker picker = new LinkagePicker(this, provider);
+        picker.setCanLoop(false);
+        picker.setGravity(Gravity.BOTTOM);
+        picker.setLabel("小时制", "");
+        picker.setLineVisible(true);
+        picker.setHeight(700);
+        picker.setSelectedIndex(0, 8);
+        picker.setAnimationStyle(R.style.Animation_CustomPopup);
+        //picker.setSelectedItem("12", "9");
+        picker.setOnMoreItemPickListener(new OnMoreItemPickListener<String>() {
+
+            @Override
+            public void onItemPicked(String first, String second, String third) {
+                //ToastUtils.showShort(first + "-" + second + "-" + third);
+            }
+        });
+        picker.show();
+    }
+    public void onOptionPicker(View view) {
+        ArrayList<String> list = new ArrayList<>();
+        for(int i = 0;i<10; i++){
+            String s = "";
+            if(i<10){
+                s = "0"+i;
+            }else{
+                s = i+"";
+            }
+            list.add(s);
+        }
+//        String[] ss = (String[]) list.toArray();
+        SinglePicker<String> picker = new SinglePicker<>(this, list);
+        picker.setCanLoop(false);//不禁用循环
+        picker.setLineVisible(true);
+        picker.setTextSize(18);
+        picker.setSelectedIndex(2);
+        //启用权重 setWeightWidth 才起作用
+        picker.setLabel("分");
+        picker.setItemWidth(100);
+//        picker.setWeightEnable(true);
+//        picker.setWeightWidth(1);
+        picker.setOuterLabelEnable(true);
+        picker.setSelectedTextColor(Color.GREEN);//前四位值是透明度
+        picker.setUnSelectedTextColor(Color.BLACK);
+        picker.setOnSingleWheelListener(new OnSingleWheelListener() {
+            @Override
+            public void onWheeled(int index, String item) {
+               // ToastUtils.showShort("index=" + index + ", item=" + item);
+            }
+        });
+        picker.setOnItemPickListener(new OnItemPickListener<String>() {
+            @Override
+            public void onItemPicked(int index, String item) {
+               // ToastUtils.showShort("index=" + index + ", item=" + item);
+            }
+        });
+        picker.show();
     }
 }

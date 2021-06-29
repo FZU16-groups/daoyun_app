@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="distance_limit_Et" type="id" />
+    <item name="signin_experience_Tv" type="id" />
+    <item name="latitude_layout" type="id" />
+    <item name="latitude_Tv" type="id" />
+    <item name="longitude_layout" type="id" />
+    <item name="longitude_Tv" type="id" />
+    <item name="start_one_btn" type="id" />
+    <item name="one_btn" type="id" />
+    <item name="location_Tv" type="id" />
+    <item name="signin_num_Tv" type="id" />
+    <item name="signin_rate_Tv" type="id" />
+    <item name="signin_record_list_view" type="id" />
+    <item name="toolbar2_content_rlyt" type="id" />
+    <item name="scancode_Tv" type="id" />
+    <item name="scancode_image_Iv" type="id" />
+</resources>

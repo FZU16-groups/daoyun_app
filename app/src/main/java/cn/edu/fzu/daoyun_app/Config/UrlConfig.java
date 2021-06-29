@@ -10,7 +10,24 @@ public class UrlConfig {
     public enum UrlType {
         VER_LOGIN,
         PSD_LOGIN,
-        Create_Class
+        Create_Class,
+        JOIN_CLASS,
+        JPINED_CLASS,
+        CREATE_CLASS,
+        PERMIT_JOIN_CLASS,
+        JUDGE_SIGNIN,
+        SEND_SIGNIN,
+        STOP_SIGNIN,
+        STUDENT_JUDGE_SIGNIN,
+        STUDENT_SIGNIN,
+        CLASS_STUDENT,
+        SIGNIN_STUDENT,
+        STUDENT_SIGNIN_INFO,
+        UPDATE_USER,
+        MODIFY_PAS,
+        TEACHER_CHECK_RECORD,
+        TEACHER_CHECK_SIGNIN,
+
     }
 
     public static String getUrl(UrlType urlType) {
@@ -21,6 +38,38 @@ public class UrlConfig {
                 return ORIGION_URL + "loginUser.do";
             case Create_Class:
                 return ORIGION_URL + "insertCourses.do";
+            case JOIN_CLASS:
+                return ORIGION_URL + "insertPersonCourse.do";
+            case JPINED_CLASS:
+                return ORIGION_URL + "addedCourse.do";
+            case CREATE_CLASS:
+                return ORIGION_URL + "createdCourse.do";
+            case PERMIT_JOIN_CLASS:
+                return ORIGION_URL + "updateByCoursePrimaryKey.do";
+            case JUDGE_SIGNIN:
+                return ORIGION_URL + "JudgeSignIn.do";
+            case SEND_SIGNIN:
+                return ORIGION_URL + "SendSign.do";
+            case STOP_SIGNIN:
+                return ORIGION_URL+"StopSignIn.do";
+            case STUDENT_JUDGE_SIGNIN:
+                return ORIGION_URL+"JudgeSignInByCourseNumber.do";
+            case STUDENT_SIGNIN:
+                return ORIGION_URL+"insertSignInMessage.do";
+            case CLASS_STUDENT:
+                return ORIGION_URL+"selectStudentsByCourseNumber.do";
+            case SIGNIN_STUDENT:
+                return ORIGION_URL+"selectSignInInformByssId.do";
+            case STUDENT_SIGNIN_INFO:
+                return ORIGION_URL+"selectSignInMessageBycNumber.do";
+            case UPDATE_USER:
+                return ORIGION_URL+"updateUserAndRole.do";
+            case MODIFY_PAS:
+                return ORIGION_URL+"updatePassword.do ";
+            case TEACHER_CHECK_RECORD:
+                return ORIGION_URL+"selectSendSignInMessageBycNumerAndpeId.do";
+            case TEACHER_CHECK_SIGNIN:
+                return ORIGION_URL+"selectSignInInformByssId.do";
             default:
                 return ORIGION_URL + "message?phone=";
         }

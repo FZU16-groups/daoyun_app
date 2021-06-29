@@ -18,18 +18,40 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            android.applicationVariants.all {
+                variant ->
+                    variant.outputs.all {
+                        // 此处指定生成的apk文件名
+                        outputFileName = "daoyun1.0.apk"
+                    }
+            }
+
         }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+            jni.srcDirs = []    //disable automatic ndk-build
+
+        }
+    }
+
 }
 
 dependencies {
-
+//百度SDk
+    compile fileTree(dir:  'libs' , include: ['*.jar'])
+    implementation 'in.xiandan:count-down-timer:1.0.3'
+   // implementation 'com.github.li-xiaojun:XPopupExt:0.0.6'
+   // implementation 'com.github.li-xiaojun:XPopup:2.2.25'
+    implementation 'androidx.navigation:navigation-fragment:2.2.2'
+    implementation 'androidx.navigation:navigation-ui:2.2.2'
     compile fileTree(dir: 'libs', include: '*.jar')
     implementation "androidx.drawerlayout:drawerlayout:1.1.1"
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -38,7 +60,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation files('E:\\研一下\\工程训练\\daoyun_app\\app\\libs\\open_sdk_3.5.3.10_r6772050_lite.jar')
     compile "com.android.support:support-v4"
-
+    implementation 'com.github.addappcn:android-pickers:2.0.0'
 
     implementation 'com.squareup.okhttp3:okhttp:4.7.2'
     implementation 'com.lxj:xpopup:2.2.23'

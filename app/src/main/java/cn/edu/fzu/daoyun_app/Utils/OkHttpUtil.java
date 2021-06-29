@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Handler;
 
+import cn.edu.fzu.daoyun_app.Config.GConfig;
 import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
@@ -108,6 +109,25 @@ public class OkHttpUtil {
     }
 
     /**
+     * 对外提供的Post方法访问
+     *
+     * @param url
+     * @param json:    提交内容为json数据
+     * @param callBack
+     */
+    public void PostWithJsonWithToken(String url, JSONObject json, Callback callBack) {
+        /**
+         * 通过url和POST方式构建Request
+         */
+        Request request = bulidRequestForPostByJsonWithToken(url, String.valueOf(json));
+        /**
+         * 请求网络的逻辑
+         */
+        requestNetWork(request, callBack);
+
+    }
+
+    /**
      * POST方式构建Request {json}
      *
      * @param url
@@ -122,6 +142,24 @@ public class OkHttpUtil {
                 .post(body)
                 .build();
     }
+
+    /**
+     * POST方式构建Request {json}
+     *
+     * @param url
+     * @param json
+     * @return
+     */
+    private Request bulidRequestForPostByJsonWithToken(String url, String json) {
+        RequestBody body = RequestBody.create(JSON, json);
+
+        return new Request.Builder()
+                .url(url)
+                .addHeader("Authorization", "Bearer " + GConfig.getUserToken()) // 添加授权认证
+                .post(body)
+                .build();
+    }
+
 
     /**
      * POST方式构建Request {Form}

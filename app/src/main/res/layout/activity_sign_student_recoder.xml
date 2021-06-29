@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.edu.fzu.daoyun_app.CustomToolBar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:left_btn_src="@mipmap/icon_back"
+    app:left_btn_visible="true"
+    app:right_tv_text="刷新"
+    app:right_tv_visible="false"
+    app:title_text="签到结果"
+    app:title_visible="true"
+    android:background="#f2f4fd"
+    tools:context=".SignStudentRecoderActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:orientation="vertical">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text="未签到" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#D8DDE1" />
+
+        <ListView
+            android:id="@+id/unsignedIn_listview"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#D8DDE1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text="已签到" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#D8DDE1" />
+
+        <ListView
+            android:id="@+id/signedIn_listview"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
+
+
+    </LinearLayout>
+
+</cn.edu.fzu.daoyun_app.CustomToolBar>
+
